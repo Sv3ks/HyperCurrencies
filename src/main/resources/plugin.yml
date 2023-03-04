@@ -1,0 +1,8 @@
+name: Hyper
+version: '${project.version}'
+main: me.sv3ks.hyper.Hyper
+api-version: 1.19
+prefix: Hyper
+authors: [ Sv3ks ]
+description: Hyper adds customizable currencies to Spigot.
+website: github.com/Sv3ks
