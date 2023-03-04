@@ -46,4 +46,14 @@ public class Config {
 
         YamlConfiguration.loadConfiguration(configFile);
     }
+
+    public void reloadConfig() {
+        if (!configFile.exists()) {
+            if (!configFile.getParentFile().mkdirs()) getPlugin().getLogger().severe(ChatColor.DARK_RED + "Failed to create necessary directories.");
+            // dataConfigFile.getParentFile().mkdirs();
+            getPlugin().saveResource(fileName, false);
+        }
+
+        config = YamlConfiguration.loadConfiguration(configFile);
+    }
 }

@@ -6,3 +6,10 @@ prefix: HyperCurrencies
 authors: [ Sv3ks ]
 description: Adds customizable currencies to Spigot.
 website: github.com/Sv3ks
+commands:
+  hypercurrencies:
+    permission: hypercurrencies.admin
+    aliases:
+      - /hc
+      - /hyper
+    description: The main command of HyperCurrencies.
