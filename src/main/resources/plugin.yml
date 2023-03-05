@@ -13,3 +13,8 @@ commands:
       - /hc
       - /hyper
     description: The main command of HyperCurrencies.
+  currency:
+    permission: hypercurrencies.currency
+    aliases:
+      - /c
+    description: Manages currencies.

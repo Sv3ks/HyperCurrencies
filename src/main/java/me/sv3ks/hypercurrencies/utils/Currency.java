@@ -46,4 +46,12 @@ public class Currency {
     public static void setBalance(String name, UUID player, long amount) {
         getDataConfig().getConfig().set(name+"."+player, amount);
     }
+
+    public static void createCurrency(String name) {
+        getDataConfig().getConfig().set(name,"");
+    }
+
+    public static boolean currencyExists(String name) {
+        return getDataConfig().getConfig().contains(name);
+    }
 }

@@ -1,5 +1,6 @@
 package me.sv3ks.hypercurrencies;
 
+import me.sv3ks.hypercurrencies.commands.CurrencyCommand;
 import me.sv3ks.hypercurrencies.commands.HyperCurrenciesCommand;
 import me.sv3ks.hypercurrencies.utils.Config;
 import org.bukkit.plugin.Plugin;
@@ -22,6 +23,7 @@ public final class HyperCurrencies extends JavaPlugin {
         dataConfig.createConfig();
 
         this.getCommand("hypercurrencies").setExecutor(new HyperCurrenciesCommand());
+        this.getCommand("currency").setExecutor(new CurrencyCommand());
 
         this.getLogger().info("Hyper was enabled");
 
