@@ -37,18 +37,26 @@ public class Currency {
 
     public static void addBalance(String name, UUID player, long amount) {
         getDataConfig().getConfig().set(name+"."+player, getBalance(name, player)+amount);
+        saveCurrencies();
     }
 
     public static void removeBalance(String name, UUID player, long amount) {
         getDataConfig().getConfig().set(name+"."+player, getBalance(name, player)-amount);
+        saveCurrencies();
     }
 
     public static void setBalance(String name, UUID player, long amount) {
         getDataConfig().getConfig().set(name+"."+player, amount);
+        saveCurrencies();
     }
 
     public static void createCurrency(String name) {
         getDataConfig().getConfig().set(name,"");
+        saveCurrencies();
+    }
+
+    public static void saveCurrencies() {
+        getDataConfig().saveConfig();
     }
 
     public static boolean currencyExists(String name) {
