@@ -83,6 +83,11 @@ public class CurrencyCommand implements CommandExecutor {
                 return false;
             }
 
+            if (currencyExists(args[1])) {
+                sender.sendMessage(msgWrap("&cThat currency already exists!"));
+                return false;
+            }
+
             createCurrency(args[1]);
             sender.sendMessage(msgWrap("&aYou created the currency "+args[1]));
         }
