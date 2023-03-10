@@ -55,6 +55,11 @@ public class Currency {
         saveCurrencies();
     }
 
+    public static void deleteCurrency(String name) {
+        getDataConfig().getConfig().set(name,null);
+        saveCurrencies();
+    }
+
     public static void saveCurrencies() {
         getDataConfig().saveConfig();
     }

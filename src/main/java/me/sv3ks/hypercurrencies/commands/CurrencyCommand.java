@@ -18,7 +18,7 @@ public class CurrencyCommand implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("give")||args[0].equalsIgnoreCase("remove")||args[0].equalsIgnoreCase("revoke")) {
             if (args[3]==null) {
-                sender.sendMessage(msgWrap("&cInvalid amounts of arguments."));
+                sender.sendMessage(msgWrap("&cInvalid amount of arguments."));
                 return false;
             }
 
@@ -54,7 +54,7 @@ public class CurrencyCommand implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("info")||args[0].equalsIgnoreCase("get")) {
             if (args[2]==null) {
-                sender.sendMessage(msgWrap("&cInvalid amounts of arguments."));
+                sender.sendMessage(msgWrap("&cInvalid amount of arguments."));
                 return false;
             }
 
@@ -71,6 +71,31 @@ public class CurrencyCommand implements CommandExecutor {
             sender.sendMessage(msgWrap("&a"+args[1]+" has "+getBalance(args[2],getPlayer(args[1]).getUniqueId())+" "+args[2]+"."));
         }
 
+        if (args[0].equalsIgnoreCase("create")) {
+            if (args[1]==null) {
+                sender.sendMessage(msgWrap("&cInvalid amount of arguments."));
+                return false;
+            }
+
+            createCurrency(args[1]);
+            sender.sendMessage(msgWrap("&aYou created the currency "+args[1]));
+        }
+
+        if (args[0].equalsIgnoreCase("delete")) {
+            if (args[1]==null) {
+                sender.sendMessage(msgWrap("&cInvalid amount of arguments."));
+                return false;
+            }
+
+            if (!currencyExists(args[1])) {
+                sender.sendMessage(msgWrap("&cInvalid currency."));
+                return false;
+            }
+
+            deleteCurrency(args[1]);
+            sender.sendMessage(msgWrap("&aYou deleted the currency "+args[1]));
+        }
+
         if (args[0].equalsIgnoreCase("help")) {
 
             sender.sendMessage(msgWrap("&aCommand arguments:"));
@@ -78,7 +103,8 @@ public class CurrencyCommand implements CommandExecutor {
             sender.sendMessage(wrap("&d/currency <add|give> <player> <amount> <currency> &8- &5Gives currency to a player."));
             sender.sendMessage(wrap("&d/currency <remove|revoke> <player> <amount> <currency> &8- &5Removes currency from a player."));
             sender.sendMessage(wrap("&d/currency <info|get> <player> <currency> &8- &5Gets a player's currency."));
-            sender.sendMessage(wrap("&d/currency <create> <name> &8- &5Creates a new currency."));
+            sender.sendMessage(wrap("&d/currency create <name> &8- &5Creates a new currency."));
+            sender.sendMessage(wrap("&d/currency delete <name> &8- &5Deletes a currency."));
 
             return true;
         }
