@@ -46,7 +46,7 @@ public class CurrencyCommand implements CommandExecutor {
             }
 
             if (args[0].equalsIgnoreCase("remove")||args[0].equalsIgnoreCase("revoke")) {
-                addBalance(args[3], getPlayer(args[1]).getUniqueId(), Long.parseLong(args[2]));
+                removeBalance(args[3], getPlayer(args[1]).getUniqueId(), Long.parseLong(args[2]));
                 sender.sendMessage(msgWrap("&aRemoved "+args[2]+" "+args[3]+" from "+sender.getName()));
                 return true;
             }
