@@ -1,5 +1,6 @@
 package me.sv3ks.hypercurrencies.commands;
 
+import me.sv3ks.hypercurrencies.utils.Currency;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -39,19 +40,35 @@ public class CurrencyCommand implements CommandExecutor {
                 return false;
             }
 
+            Currency currency = new Currency(args[3]);
+
             if (args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("give")) {
+                if (Long.parseLong(args[2])+currency.getBalance(((Player) sender).getUniqueId())>currency.getMaxBal()) {
+                    sender.sendMessage(msgWrap("&cThe player cannot have that amount money."));
+                    return false;
+                }
                 addBalance(args[3], getPlayer(args[1]).getUniqueId(), Long.parseLong(args[2]));
                 sender.sendMessage(msgWrap("&aGave "+args[2]+" "+args[3]+" to "+sender.getName()));
                 return true;
             }
 
             if (args[0].equalsIgnoreCase("remove")||args[0].equalsIgnoreCase("revoke")) {
+                if (Long.parseLong(args[2])+currency.getBalance(((Player) sender).getUniqueId())<currency.getMinBal()) {
+                    sender.sendMessage(msgWrap("&cThe player cannot have that amount money."));
+                    return false;
+                }
                 removeBalance(args[3], getPlayer(args[1]).getUniqueId(), Long.parseLong(args[2]));
                 sender.sendMessage(msgWrap("&aRemoved "+args[2]+" "+args[3]+" from "+sender.getName()));
                 return true;
             }
 
             if (args[0].equalsIgnoreCase("set")) {
+                if (
+                        Long.parseLong(args[2])+currency.getBalance(((Player) sender).getUniqueId())<currency.getMinBal()||
+                        Long.parseLong(args[2])+currency.getBalance(((Player) sender).getUniqueId())>currency.getMaxBal()) {
+                    sender.sendMessage(msgWrap("&cThe player cannot have that amount money."));
+                    return false;
+                }
                 setBalance(args[3], getPlayer(args[1]).getUniqueId(), Long.parseLong(args[2]));
                 sender.sendMessage(msgWrap("&aSet "+sender.getName()+"'s "+args[3]+" to "+args[2]));
                 return true;

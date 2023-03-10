@@ -1,0 +1,12 @@
+# NOTE: When you've changed anything in this file, use /hc reload!
+
+# This is the example currency.
+# All options inside of the currency is optional.
+# If they're not set, they will be like this by default.
+
+#currency-name:
+#  starting-bal: 0
+#  min-bal: 0
+#  The length of a java long.
+#  If you want it more precise length, use 9223372036854775808.
+#  max-bal: 9000000000000000000L
