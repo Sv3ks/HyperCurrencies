@@ -16,7 +16,7 @@ public class CurrencyCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("give")||args[0].equalsIgnoreCase("remove")||args[0].equalsIgnoreCase("revoke")) {
+        if (args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("give")||args[0].equalsIgnoreCase("remove")||args[0].equalsIgnoreCase("revoke")||args[0].equalsIgnoreCase("set")) {
             if (args[3]==null) {
                 sender.sendMessage(msgWrap("&cInvalid amount of arguments."));
                 return false;
@@ -48,6 +48,12 @@ public class CurrencyCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("remove")||args[0].equalsIgnoreCase("revoke")) {
                 addBalance(args[3], getPlayer(args[1]).getUniqueId(), Long.parseLong(args[2]));
                 sender.sendMessage(msgWrap("&aRemoved "+args[2]+" "+args[3]+" from "+sender.getName()));
+                return true;
+            }
+
+            if (args[0].equalsIgnoreCase("set")) {
+                setBalance(args[3], getPlayer(args[1]).getUniqueId(), Long.parseLong(args[2]));
+                sender.sendMessage(msgWrap("&aSet "+sender.getName()+"'s "+args[3]+" to "+args[2]));
                 return true;
             }
         }
@@ -100,6 +106,7 @@ public class CurrencyCommand implements CommandExecutor {
 
             sender.sendMessage(msgWrap("&aCommand arguments:"));
             sender.sendMessage(wrap("&d/currency help &8- &5Shows this list."));
+            sender.sendMessage(wrap("&d/currency set <player> <amount> <currency> &8- &5Sets a player's currency."));
             sender.sendMessage(wrap("&d/currency <add|give> <player> <amount> <currency> &8- &5Gives currency to a player."));
             sender.sendMessage(wrap("&d/currency <remove|revoke> <player> <amount> <currency> &8- &5Removes currency from a player."));
             sender.sendMessage(wrap("&d/currency <info|get> <player> <currency> &8- &5Gets a player's currency."));
