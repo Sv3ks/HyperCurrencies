@@ -1,9 +1,12 @@
 package me.sv3ks.hypercurrencies.utils;
 
+import org.bukkit.entity.Player;
+
 import java.util.UUID;
 
 import static me.sv3ks.hypercurrencies.HyperCurrencies.getCurrencyConfig;
 import static me.sv3ks.hypercurrencies.HyperCurrencies.getDataConfig;
+import static me.sv3ks.hypercurrencies.utils.Utils.msgWrap;
 
 public class Currency {
 
@@ -30,26 +33,22 @@ public class Currency {
         else this.maxBal = getCurrencyConfig().getConfig().getLong("max-bal");
     }
 
-    public void addBalance(UUID player, long amount) {
-        getDataConfig().getConfig().set(name+"."+player, getBalance(name, player)+amount);
-        saveCurrencies();
+    public boolean addBalance(UUID player, long amount) {
+        return addBalance(name,player,amount);
     }
 
-    public void removeBalance(UUID player, long amount) {
-        getDataConfig().getConfig().set(name+"."+player, getBalance(name, player)-amount);
-        saveCurrencies();
+    public boolean removeBalance(UUID player, long amount) {
+        return removeBalance(name,player,amount);
     }
 
-    public void setBalance(UUID player, long amount) {
-        getDataConfig().getConfig().set(name+"."+player, amount);
-        saveCurrencies();
+    public boolean setBalance(UUID player, long amount) {
+        return setBalance(name,player,amount);
     }
 
     // Getters
 
     public long getBalance(UUID player) {
-        if (getDataConfig().getConfig().get(name+"."+player)==null) setBalance(player,startingBal);
-        return getDataConfig().getConfig().getLong(name+"."+player);
+        return getBalance(name,player);
     }
 
     public String getName() {
@@ -74,26 +73,57 @@ public class Currency {
         return getDataConfig().getConfig().getLong(name+"."+player);
     }
 
-    public static void addBalance(String name, UUID player, long amount) {
+    public static boolean addBalance(String name, UUID player, long amount) {
+        Currency currency = new Currency(name);
+
+        if (
+                amount+currency.getBalance(player)>currency.getMaxBal()
+        ) {
+            return false;
+        }
+
         getDataConfig().getConfig().set(name+"."+player, getBalance(name, player)+amount);
         saveCurrencies();
+
+        return true;
     }
 
-    public static void removeBalance(String name, UUID player, long amount) {
+    public static boolean removeBalance(String name, UUID player, long amount) {
+        Currency currency = new Currency(name);
+
+        if (
+                currency.getBalance(player)-amount<currency.getMinBal()
+        ) {
+            return false;
+        }
+
         getDataConfig().getConfig().set(name+"."+player, getBalance(name, player)-amount);
         saveCurrencies();
+
+        return true;
     }
 
-    public static void setBalance(String name, UUID player, long amount) {
+    public static boolean setBalance(String name, UUID player, long amount) {
+        Currency currency = new Currency(name);
+
+        if (
+                currency.getBalance(player)-amount<currency.getMinBal()||
+                amount+currency.getBalance(player)>currency.getMaxBal()
+        ) {
+            return false;
+        }
+
         getDataConfig().getConfig().set(name+"."+player, amount);
         saveCurrencies();
+
+        return true;
     }
 
     public static void createCurrency(String name) {
         getCurrencyConfig().getConfig().createSection(name);
         getCurrencyConfig().getConfig().set(name+".starting-bal",0);
         getCurrencyConfig().getConfig().set(name+".min-bal",0);
-        getCurrencyConfig().getConfig().set(name+".max-bal",9000000000000000000L);
+        getCurrencyConfig().getConfig().set(name+".max-bal",1000000000000000000L);
         saveCurrencies();
     }
 
