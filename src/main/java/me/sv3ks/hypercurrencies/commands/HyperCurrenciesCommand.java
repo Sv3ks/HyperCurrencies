@@ -31,9 +31,9 @@ public class HyperCurrenciesCommand implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("help")) {
 
-            sender.sendMessage(msgWrap("&aCommand arguments:"));
-            sender.sendMessage(wrap("&a/hyper help &8- &7Shows this list."));
-            sender.sendMessage(wrap("&a/hyper <reload|rl> &8- &7Reloads HyperCurrencies' data."));
+            sender.sendMessage(wrap("&6&lHYPER&e&lCURRENCIES &8- &eCommand syntax:"));
+            sender.sendMessage(wrap("&8> &6/hyper help &7- &eShows this list."));
+            sender.sendMessage(wrap("&8> &6/hyper <reload|rl> &7- &eReloads HyperCurrencies' data."));
 
             return true;
         }

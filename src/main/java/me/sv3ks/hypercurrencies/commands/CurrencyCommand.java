@@ -9,8 +9,7 @@ import org.bukkit.entity.Player;
 
 import static me.sv3ks.hypercurrencies.HyperCurrencies.getPlugin;
 import static me.sv3ks.hypercurrencies.utils.Currency.*;
-import static me.sv3ks.hypercurrencies.utils.Utils.msgWrap;
-import static me.sv3ks.hypercurrencies.utils.Utils.wrap;
+import static me.sv3ks.hypercurrencies.utils.Utils.*;
 import static org.bukkit.Bukkit.getPlayer;
 
 public class CurrencyCommand implements CommandExecutor {
@@ -74,9 +73,23 @@ public class CurrencyCommand implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("info")||args[0].equalsIgnoreCase("get")) {
-            if (args[2]==null) {
+            if (args[1]==null) {
                 sender.sendMessage(msgWrap("&cInvalid amount of arguments."));
                 return false;
+            }
+
+            if (args[2]==null) {
+                if (!currencyExists(args[1])) {
+                    sender.sendMessage(msgWrap("&cUnknown currency."));
+                    return false;
+                }
+
+                Currency currency = new Currency(args[1]);
+
+                sender.sendMessage(msgWrap("&aInformation about the currency: &e"+currency.getName()));
+                sender.sendMessage(bulletWrap("Starting balance: &e"+currency.getStartingBal()));
+                sender.sendMessage(bulletWrap("Minimum balance: &e"+currency.getMinBal()));
+                sender.sendMessage(bulletWrap("Maximum balance: &e"+currency.getMaxBal()));
             }
 
             if (getPlayer(args[1])==null) {
@@ -124,14 +137,15 @@ public class CurrencyCommand implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("help")) {
 
-            sender.sendMessage(msgWrap("&aCommand arguments:"));
-            sender.sendMessage(wrap("&d/currency help &8- &5Shows this list."));
-            sender.sendMessage(wrap("&d/currency set <player> <amount> <currency> &8- &5Sets a player's currency."));
-            sender.sendMessage(wrap("&d/currency <add|give> <player> <amount> <currency> &8- &5Gives currency to a player."));
-            sender.sendMessage(wrap("&d/currency <remove|revoke> <player> <amount> <currency> &8- &5Removes currency from a player."));
-            sender.sendMessage(wrap("&d/currency <info|get> <player> <currency> &8- &5Gets a player's currency."));
-            sender.sendMessage(wrap("&d/currency create <name> &8- &5Creates a new currency."));
-            sender.sendMessage(wrap("&d/currency delete <name> &8- &5Deletes a currency."));
+            sender.sendMessage(wrap("&6&lHYPER&e&lCURRENCIES &8- &eCommand syntax:"));
+            sender.sendMessage(wrap("&8> &6/currency help &7- &eShows this list."));
+            sender.sendMessage(wrap("&8> &6/currency set <player> <amount> <currency> &7- &eSets a player's currency."));
+            sender.sendMessage(wrap("&8> &6/currency <add|give> <player> <amount> <currency> &7- &eGives currency to a player."));
+            sender.sendMessage(wrap("&8> &6/currency <remove|revoke> <player> <amount> <currency> &7- &eRemoves currency from a player."));
+            sender.sendMessage(wrap("&8> &6/currency <info|get> <player> <currency> &7- &eGets a player's currency."));
+            sender.sendMessage(wrap("&8> &6/currency <info|get> <currency> &7- &eGets data about a currency."));
+            sender.sendMessage(wrap("&8> &6/currency create <name> &7- &eCreates a new currency."));
+            sender.sendMessage(wrap("&8> &6/currency delete <name> &7- &eDeletes a currency."));
 
             return true;
         }
