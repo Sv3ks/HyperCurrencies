@@ -6,7 +6,7 @@
 
     <groupId>me.sv3ks</groupId>
     <artifactId>HyperCurrencies</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-pre</version>
     <packaging>jar</packaging>
 
     <name>HyperCurrencies</name>

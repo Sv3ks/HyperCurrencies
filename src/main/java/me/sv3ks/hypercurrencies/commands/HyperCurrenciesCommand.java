@@ -5,8 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import static me.sv3ks.hypercurrencies.HyperCurrencies.*;
-import static me.sv3ks.hypercurrencies.utils.Utils.msgWrap;
-import static me.sv3ks.hypercurrencies.utils.Utils.wrap;
+import static me.sv3ks.hypercurrencies.utils.Utils.*;
 
 public class HyperCurrenciesCommand implements CommandExecutor {
     @Override
@@ -29,11 +28,23 @@ public class HyperCurrenciesCommand implements CommandExecutor {
             return true;
         }
 
+        if (args[0].equalsIgnoreCase("info")) {
+
+            sender.sendMessage(wrap("&6&lHYPER&e&lCURRENCIES &8- &ePlugin info:"));
+            sender.sendMessage(bulletWrap("Version: &e"+getPlugin().getDescription().getVersion()));
+            sender.sendMessage(bulletWrap("Authors: &e"+getPlugin().getDescription().getAuthors()));
+            sender.sendMessage(bulletWrap("Website: &e"+getPlugin().getDescription().getWebsite()));
+            sender.sendMessage(bulletWrap("Prefix: &e"+getPlugin().getDescription().getPrefix()));
+
+            return true;
+        }
+
         if (args[0].equalsIgnoreCase("help")) {
 
             sender.sendMessage(wrap("&6&lHYPER&e&lCURRENCIES &8- &eCommand syntax:"));
             sender.sendMessage(wrap("&8> &6/hyper help &7- &eShows this list."));
             sender.sendMessage(wrap("&8> &6/hyper <reload|rl> &7- &eReloads HyperCurrencies' data."));
+            sender.sendMessage(wrap("&8> &6/hyper info &7- &eShows info about HyperCurrencies."));
 
             return true;
         }
