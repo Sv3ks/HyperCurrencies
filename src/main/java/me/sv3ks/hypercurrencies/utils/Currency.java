@@ -4,13 +4,14 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-import static me.sv3ks.hypercurrencies.HyperCurrencies.getCurrencyConfig;
-import static me.sv3ks.hypercurrencies.HyperCurrencies.getDataConfig;
+import static me.sv3ks.hypercurrencies.HyperCurrencies.*;
 import static me.sv3ks.hypercurrencies.utils.Utils.msgWrap;
+import static org.bukkit.Bukkit.getPlayer;
 
 public class Currency {
 
     private final String name;
+    private final String provider;
     private final long startingBal;
     private final long minBal;
     private final long maxBal;
@@ -31,6 +32,10 @@ public class Currency {
         // Max bal
         if (getCurrencyConfig().getConfig().get("max-bal")==null) this.maxBal = 0;
         else this.maxBal = getCurrencyConfig().getConfig().getLong("max-bal");
+
+        // Provider
+        if (getCurrencyConfig().getConfig().get("provider")==null) this.provider = "hypercurrencies";
+        else this.provider = getCurrencyConfig().getConfig().getString("provider");
     }
 
     public boolean addBalance(UUID player, long amount) {
@@ -55,6 +60,10 @@ public class Currency {
         return name;
     }
 
+    public String getProvier() {
+        return provider;
+    }
+
     public long getStartingBal() {
         return startingBal;
     }
@@ -70,6 +79,11 @@ public class Currency {
     /* Statics */
 
     public static long getBalance(String name, UUID player) {
+
+        if (new Currency(name).provider.equalsIgnoreCase("vault")) {
+            return (long) getEconomy().getBalance(getPlayer(player));
+        }
+
         return getDataConfig().getConfig().getLong(name+"."+player);
     }
 
@@ -80,6 +94,11 @@ public class Currency {
                 amount+currency.getBalance(player)>currency.getMaxBal()
         ) {
             return false;
+        }
+
+        if (new Currency(name).provider.equalsIgnoreCase("vault")) {
+            getEconomy().depositPlayer(getPlayer(player),amount);
+            return true;
         }
 
         getDataConfig().getConfig().set(name+"."+player, getBalance(name, player)+amount);
@@ -95,6 +114,11 @@ public class Currency {
                 currency.getBalance(player)-amount<currency.getMinBal()
         ) {
             return false;
+        }
+
+        if (new Currency(name).provider.equalsIgnoreCase("vault")) {
+            getEconomy().withdrawPlayer(getPlayer(player),amount);
+            return true;
         }
 
         getDataConfig().getConfig().set(name+"."+player, getBalance(name, player)-amount);
@@ -113,6 +137,12 @@ public class Currency {
             return false;
         }
 
+        if (new Currency(name).provider.equalsIgnoreCase("vault")) {
+            getEconomy().withdrawPlayer(getPlayer(player),currency.getBalance(player));
+            getEconomy().depositPlayer(getPlayer(player),amount);
+            return true;
+        }
+
         getDataConfig().getConfig().set(name+"."+player, amount);
         saveCurrencies();
 
@@ -120,10 +150,10 @@ public class Currency {
     }
 
     public static void createCurrency(String name) {
-        getCurrencyConfig().getConfig().createSection(name);
         getCurrencyConfig().getConfig().set(name+".starting-bal",0);
         getCurrencyConfig().getConfig().set(name+".min-bal",0);
         getCurrencyConfig().getConfig().set(name+".max-bal",1000000000000000000L);
+        getCurrencyConfig().getConfig().set(name+".provider","hypercurrencies");
         saveCurrencies();
     }
 

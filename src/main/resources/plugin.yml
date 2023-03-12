@@ -6,6 +6,7 @@ prefix: HyperCurrencies
 authors: [ Sv3ks ]
 description: Adds customizable currencies to Spigot.
 website: github.com/Sv3ks
+softdepend: [Vault]
 commands:
   hypercurrencies:
     permission: hypercurrencies.admin

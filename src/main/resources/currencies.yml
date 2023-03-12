@@ -10,3 +10,6 @@
 #  The length of a java long.
 #  If you want it more precise length, use 9223372036854775808.
 #  max-bal: 1000000000000000000
+#  Use this if you want the balance to be linked with vault.
+#  (Will be 'hypercurrencies' by default)
+#  provider: 'vault'
