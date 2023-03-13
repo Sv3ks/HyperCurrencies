@@ -1,11 +1,8 @@
 package me.sv3ks.hypercurrencies.utils;
 
-import org.bukkit.entity.Player;
-
 import java.util.UUID;
 
 import static me.sv3ks.hypercurrencies.HyperCurrencies.*;
-import static me.sv3ks.hypercurrencies.utils.Utils.msgWrap;
 import static org.bukkit.Bukkit.getPlayer;
 
 public class Currency {
@@ -76,6 +73,10 @@ public class Currency {
         return maxBal;
     }
 
+    public boolean hasBalance(UUID player) {
+        return hasBalance(name,player);
+    }
+
     /* Statics */
 
     public static long getBalance(String name, UUID player) {
@@ -83,6 +84,8 @@ public class Currency {
         if (new Currency(name).provider.equalsIgnoreCase("vault")) {
             return (long) getEconomy().getBalance(getPlayer(player));
         }
+
+        if (!hasBalance(name,player)) setBalance(name,player,new Currency(name).getStartingBal());
 
         return getDataConfig().getConfig().getLong(name+"."+player);
     }
@@ -170,5 +173,9 @@ public class Currency {
 
     public static boolean currencyExists(String name) {
         return getDataConfig().getConfig().contains(name);
+    }
+
+    public static boolean hasBalance(String name, UUID player) {
+        return getDataConfig().getConfig().get(name+"."+player)!=null;
     }
 }

@@ -1,5 +1,6 @@
 package me.sv3ks.hypercurrencies;
 
+import me.hsgamer.bettereconomy.BetterEconomy;
 import me.sv3ks.hypercurrencies.commands.CurrencyCommand;
 import me.sv3ks.hypercurrencies.commands.HyperCurrenciesCommand;
 import me.sv3ks.hypercurrencies.utils.Config;
@@ -30,6 +31,8 @@ public final class HyperCurrencies extends JavaPlugin {
         this.getCommand("currency").setExecutor(new CurrencyCommand());
 
         this.getLogger().info("Hyper was enabled");
+
+
 
     }
 
