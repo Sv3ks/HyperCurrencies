@@ -1,11 +1,7 @@
 package me.sv3ks.hypercurrencies;
 
-import me.lokka30.treasury.api.economy.EconomyProvider;
-import me.lokka30.treasury.api.economy.transaction.EconomyTransaction;
-import me.lokka30.treasury.plugin.core.TreasuryPlugin;
 import me.sv3ks.hypercurrencies.commands.CurrencyCommand;
 import me.sv3ks.hypercurrencies.commands.HyperCurrenciesCommand;
-import me.sv3ks.hypercurrencies.currencies.Currency;
 import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.VaultProvider;
 import me.sv3ks.hypercurrencies.utils.Config;
@@ -14,7 +10,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
-import java.util.List;
 
 public final class HyperCurrencies extends JavaPlugin {
 
@@ -30,8 +25,8 @@ public final class HyperCurrencies extends JavaPlugin {
         plugin = this;
         currencyConfig = new Config("currencies.yml");
         dataConfig = new Config("data.yml");
-
         economy = getServer().getServicesManager().getRegistration(Economy.class).getProvider();
+        providers = new HashMap<>();
 
         currencyConfig.createConfig();
         dataConfig.createConfig();

@@ -5,7 +5,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import static me.sv3ks.hypercurrencies.HyperCurrencies.getPlugin;
 import static me.sv3ks.hypercurrencies.currencies.Currency.*;
 import static me.sv3ks.hypercurrencies.utils.Utils.*;
 import static org.bukkit.Bukkit.getPlayer;
