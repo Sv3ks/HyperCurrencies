@@ -1,4 +1,4 @@
-package me.sv3ks.hypercurrencies.utils;
+package me.sv3ks.hypercurrencies.currencies;
 
 import java.util.UUID;
 
@@ -57,7 +57,7 @@ public class Currency {
         return name;
     }
 
-    public String getProvier() {
+    public String getProvider() {
         return provider;
     }
 
@@ -81,8 +81,8 @@ public class Currency {
 
     public static long getBalance(String name, UUID player) {
 
-        if (new Currency(name).provider.equalsIgnoreCase("vault")) {
-            return (long) getEconomy().getBalance(getPlayer(player));
+        if (!new Currency(name).getProvider().equalsIgnoreCase("hypercurrencies")) {
+            return getProviders().get(name).get(player);
         }
 
         if (!hasBalance(name,player)) setBalance(name,player,new Currency(name).getStartingBal());
@@ -93,15 +93,14 @@ public class Currency {
     public static boolean addBalance(String name, UUID player, long amount) {
         Currency currency = new Currency(name);
 
+        if (!currency.getProvider().equalsIgnoreCase("hypercurrencies")) {
+            return getProviders().get(name).change(ChangeType.ADD,player,amount);
+        }
+
         if (
                 amount+currency.getBalance(player)>currency.getMaxBal()
         ) {
             return false;
-        }
-
-        if (new Currency(name).provider.equalsIgnoreCase("vault")) {
-            getEconomy().depositPlayer(getPlayer(player),amount);
-            return true;
         }
 
         getDataConfig().getConfig().set(name+"."+player, getBalance(name, player)+amount);
@@ -113,15 +112,14 @@ public class Currency {
     public static boolean removeBalance(String name, UUID player, long amount) {
         Currency currency = new Currency(name);
 
+        if (!currency.getProvider().equalsIgnoreCase("hypercurrencies")) {
+            return getProviders().get(name).change(ChangeType.REMOVE,player,amount);
+        }
+
         if (
                 currency.getBalance(player)-amount<currency.getMinBal()
         ) {
             return false;
-        }
-
-        if (new Currency(name).provider.equalsIgnoreCase("vault")) {
-            getEconomy().withdrawPlayer(getPlayer(player),amount);
-            return true;
         }
 
         getDataConfig().getConfig().set(name+"."+player, getBalance(name, player)-amount);
@@ -133,17 +131,15 @@ public class Currency {
     public static boolean setBalance(String name, UUID player, long amount) {
         Currency currency = new Currency(name);
 
+        if (!currency.getProvider().equalsIgnoreCase("hypercurrencies")) {
+            return getProviders().get(name).change(ChangeType.SET,player,amount);
+        }
+
         if (
                 currency.getBalance(player)-amount<currency.getMinBal()||
                 amount+currency.getBalance(player)>currency.getMaxBal()
         ) {
             return false;
-        }
-
-        if (new Currency(name).provider.equalsIgnoreCase("vault")) {
-            getEconomy().withdrawPlayer(getPlayer(player),currency.getBalance(player));
-            getEconomy().depositPlayer(getPlayer(player),amount);
-            return true;
         }
 
         getDataConfig().getConfig().set(name+"."+player, amount);

@@ -1,12 +1,20 @@
 package me.sv3ks.hypercurrencies;
 
-import me.hsgamer.bettereconomy.BetterEconomy;
+import me.lokka30.treasury.api.economy.EconomyProvider;
+import me.lokka30.treasury.api.economy.transaction.EconomyTransaction;
+import me.lokka30.treasury.plugin.core.TreasuryPlugin;
 import me.sv3ks.hypercurrencies.commands.CurrencyCommand;
 import me.sv3ks.hypercurrencies.commands.HyperCurrenciesCommand;
+import me.sv3ks.hypercurrencies.currencies.Currency;
+import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
+import me.sv3ks.hypercurrencies.currencies.providers.VaultProvider;
 import me.sv3ks.hypercurrencies.utils.Config;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
+import java.util.List;
 
 public final class HyperCurrencies extends JavaPlugin {
 
@@ -14,6 +22,7 @@ public final class HyperCurrencies extends JavaPlugin {
     private static Config currencyConfig;
     private static Config dataConfig;
     private static Economy economy;
+    private static HashMap<String,CurrencyProvider> providers;
 
     @Override
     public void onEnable() {
@@ -27,12 +36,12 @@ public final class HyperCurrencies extends JavaPlugin {
         currencyConfig.createConfig();
         dataConfig.createConfig();
 
+        addProvider(new VaultProvider());
+
         this.getCommand("hypercurrencies").setExecutor(new HyperCurrenciesCommand());
         this.getCommand("currency").setExecutor(new CurrencyCommand());
 
         this.getLogger().info("Hyper was enabled");
-
-
 
     }
 
@@ -46,6 +55,13 @@ public final class HyperCurrencies extends JavaPlugin {
     public static Config getDataConfig() { return dataConfig; }
     public static Economy getEconomy() {
         return economy;
+    }
+    public static HashMap<String, CurrencyProvider> getProviders() {
+        return providers;
+    }
+
+    public static void addProvider(CurrencyProvider provider) {
+        providers.put(provider.getProviderID(),provider);
     }
 
 }
