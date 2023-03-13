@@ -1,7 +1,7 @@
 
 [![](https://img.shields.io/badge/License-GPLv3-orange.svg)](https://choosealicense.com/licenses/gpl-3.0/) [![](https://img.shields.io/badge/Jitpack-...-lightgray.svg)](https://jitpack.io/#Sv3ks/HyperCurrencies/)
 
-<img src="https://www.spigotmc.org/attachments/untitled-2-png.756941/" width="100%">
+<img src="https://ibb.co/gj22vZ9" height="500px">
 
 # HyperCurrencies
 
