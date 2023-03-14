@@ -1,14 +1,13 @@
 
 [![](https://img.shields.io/badge/License-GPLv3-orange.svg)](https://choosealicense.com/licenses/gpl-3.0/) [![](https://img.shields.io/badge/Jitpack-...-lightgray.svg)](https://jitpack.io/#Sv3ks/HyperCurrencies/)
 
+[<img src="https://i.ibb.co/M2vv8kS/Untitled-2.png" width="100%">](https://www.spigotmc.org/resources/hypercurrencies.108601/)
+
 # HyperCurrencies
 
 HyperCurrencies is a Spigot Plugin, adding customizable currencies that's easily manageable.
-## License
+For more info, visit [the spigot page](https://www.spigotmc.org/resources/hypercurrencies.108601/)
 
-Copyright (C) 2023 Sv3ks
-
-HyperCurrencies is using the [GPLv3](https://choosealicense.com/licenses/gpl-3.0/) license.
 ## For developers
 
 If you want to use HyperCurrencies in your java plugin, here's how:
