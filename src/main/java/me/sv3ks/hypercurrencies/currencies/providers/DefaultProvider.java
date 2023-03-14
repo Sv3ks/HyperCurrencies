@@ -7,9 +7,7 @@ import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 import java.util.UUID;
 
 import static me.sv3ks.hypercurrencies.HyperCurrencies.getDataConfig;
-import static me.sv3ks.hypercurrencies.HyperCurrencies.getEconomy;
 import static me.sv3ks.hypercurrencies.currencies.Currency.*;
-import static org.bukkit.Bukkit.getPlayer;
 
 public class DefaultProvider extends CurrencyProvider {
 

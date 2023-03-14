@@ -7,7 +7,7 @@ import static me.sv3ks.hypercurrencies.HyperCurrencies.*;
 public class Currency {
 
     private final String name;
-    private final String provider;
+    private CurrencyProvider provider;
     private final double startingBal;
     private final double minBal;
     private final double maxBal;
@@ -30,8 +30,8 @@ public class Currency {
         else this.maxBal = getCurrencyConfig().getConfig().getDouble("max-bal");
 
         // Provider
-        if (getCurrencyConfig().getConfig().get("provider")==null) this.provider = "hypercurrencies";
-        else this.provider = getCurrencyConfig().getConfig().getString("provider");
+        if (getCurrencyConfig().getConfig().get("provider")==null) this.provider = getProviders().get("hypercurrencies");
+        else this.provider = getProviders().get(getCurrencyConfig().getConfig().getString("provider"));
     }
 
     public boolean addBalance(UUID player, double amount) {
@@ -46,6 +46,12 @@ public class Currency {
         return setBalance(name,player,amount);
     }
 
+    public void setProvider(CurrencyProvider provider) {
+        this.provider = provider;
+        getCurrencyConfig().getConfig().set(name+".provider",provider.getProviderID());
+        saveCurrencies();
+    }
+
     // Getters
 
     public double getBalance(UUID player) {
@@ -56,7 +62,7 @@ public class Currency {
         return name;
     }
 
-    public String getProvider() {
+    public CurrencyProvider getProvider() {
         return provider;
     }
 
