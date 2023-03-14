@@ -15,7 +15,7 @@ public class VaultProvider extends CurrencyProvider {
     }
 
     @Override
-    public boolean change(ChangeType type, UUID uuid, long amount) {
+    public boolean change(ChangeType type, String name, UUID uuid, double amount) {
         switch (type) {
             case ADD:
                 getEconomy().depositPlayer(getPlayer(uuid),amount);
@@ -25,7 +25,7 @@ public class VaultProvider extends CurrencyProvider {
                 break;
             case SET:
                 // Player balance -> 0
-                getEconomy().withdrawPlayer(getPlayer(uuid),get(uuid));
+                getEconomy().withdrawPlayer(getPlayer(uuid),get(name,uuid));
                 // Player balance -> amount
                 getEconomy().depositPlayer(getPlayer(uuid),amount);
                 break;
@@ -35,7 +35,7 @@ public class VaultProvider extends CurrencyProvider {
     }
 
     @Override
-    public long get(UUID uuid) {
-        return (long) getEconomy().getBalance(getPlayer(uuid));
+    public double get(String name, UUID uuid) {
+        return getEconomy().getBalance(getPlayer(uuid));
     }
 }

@@ -10,8 +10,8 @@ public abstract class CurrencyProvider {
         return providerID;
     }
 
-    public abstract boolean change(ChangeType type, UUID uuid, long amount);
+    public abstract boolean change(ChangeType type, String name, UUID uuid, double amount);
 
-    public abstract long get(UUID uuid);
+    public abstract double get(String name, UUID uuid);
 
 }

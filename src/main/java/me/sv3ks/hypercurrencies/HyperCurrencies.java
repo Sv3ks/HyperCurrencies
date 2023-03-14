@@ -3,6 +3,7 @@ package me.sv3ks.hypercurrencies;
 import me.sv3ks.hypercurrencies.commands.CurrencyCommand;
 import me.sv3ks.hypercurrencies.commands.HyperCurrenciesCommand;
 import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
+import me.sv3ks.hypercurrencies.currencies.providers.DefaultProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.VaultProvider;
 import me.sv3ks.hypercurrencies.utils.Config;
 import net.milkbowl.vault.economy.Economy;
@@ -31,6 +32,7 @@ public final class HyperCurrencies extends JavaPlugin {
         currencyConfig.createConfig();
         dataConfig.createConfig();
 
+        addProvider(new DefaultProvider());
         addProvider(new VaultProvider());
 
         this.getCommand("hypercurrencies").setExecutor(new HyperCurrenciesCommand());
