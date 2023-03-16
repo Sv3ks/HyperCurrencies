@@ -7,7 +7,6 @@ import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 import java.util.UUID;
 
 import static me.sv3ks.hypercurrencies.HyperCurrencies.getDataConfig;
-import static me.sv3ks.hypercurrencies.currencies.Currency.*;
 
 public class DefaultProvider extends CurrencyProvider {
 
@@ -26,7 +25,7 @@ public class DefaultProvider extends CurrencyProvider {
                     return false;
                 }
 
-                getDataConfig().getConfig().set(name+"."+uuid, getBalance(name, uuid)+amount);
+                getDataConfig().getConfig().set(name+"."+uuid, currency.getBalance(uuid)+amount);
                 break;
             case REMOVE:
                 if (
@@ -35,7 +34,7 @@ public class DefaultProvider extends CurrencyProvider {
                     return false;
                 }
 
-                getDataConfig().getConfig().set(name+"."+uuid, getBalance(name, uuid)-amount);
+                getDataConfig().getConfig().set(name+"."+uuid, currency.getBalance(uuid)-amount);
                 break;
             case SET:
                 if (
@@ -49,13 +48,13 @@ public class DefaultProvider extends CurrencyProvider {
                 break;
         }
 
-        saveCurrencies();
+        getDataConfig().saveConfig();
         return true;
     }
 
     @Override
     public double get(String name, UUID uuid) {
-        if (!hasBalance(name,uuid)) setBalance(name,uuid,new Currency(name).getStartingBal());
+        if (getDataConfig().getConfig().get(name+"."+uuid)!=null) new Currency(name).setBalance(uuid,new Currency(name).getStartingBal());
 
         return getDataConfig().getConfig().getDouble(name+"."+uuid);
     }

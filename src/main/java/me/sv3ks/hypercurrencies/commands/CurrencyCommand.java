@@ -5,6 +5,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import static me.sv3ks.hypercurrencies.HyperCurrencies.getDataConfig;
+import static me.sv3ks.hypercurrencies.HyperCurrencies.getProviders;
 import static me.sv3ks.hypercurrencies.currencies.Currency.*;
 import static me.sv3ks.hypercurrencies.utils.Utils.*;
 import static org.bukkit.Bukkit.getPlayer;
@@ -24,13 +26,13 @@ public class CurrencyCommand implements CommandExecutor {
                 return false;
             }
 
-            if (!currencyExists(args[3])) {
+            if (!getDataConfig().getConfig().contains(args[3])) {
                 sender.sendMessage(msgWrap("&cUnknown currency."));
                 return false;
             }
 
             try {
-                Long.parseLong(args[2]);
+                Double.parseDouble(args[2]);
             } catch (NumberFormatException e) {
                 sender.sendMessage(msgWrap("&cInvalid amount."));
                 return false;
@@ -39,7 +41,7 @@ public class CurrencyCommand implements CommandExecutor {
             Currency currency = new Currency(args[3]);
 
             if (args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("give")) {
-                if (!currency.addBalance(getPlayer(args[1]).getUniqueId(), Long.parseLong(args[2]))) {
+                if (!currency.addBalance(getPlayer(args[1]).getUniqueId(), Double.parseDouble(args[2]))) {
                     sender.sendMessage(msgWrap("&cThe player cannot have that amount money."));
                     return false;
                 }
@@ -49,7 +51,7 @@ public class CurrencyCommand implements CommandExecutor {
             }
 
             if (args[0].equalsIgnoreCase("remove")||args[0].equalsIgnoreCase("revoke")) {
-                if (!currency.removeBalance(getPlayer(args[1]).getUniqueId(), Long.parseLong(args[2]))) {
+                if (!currency.removeBalance(getPlayer(args[1]).getUniqueId(), Double.parseDouble(args[2]))) {
                     sender.sendMessage(msgWrap("&cThe player cannot have that amount money."));
                     return false;
                 }
@@ -59,7 +61,7 @@ public class CurrencyCommand implements CommandExecutor {
             }
 
             if (args[0].equalsIgnoreCase("set")) {
-                if (!currency.setBalance(getPlayer(args[1]).getUniqueId(), Long.parseLong(args[2]))) {
+                if (!currency.setBalance(getPlayer(args[1]).getUniqueId(), Double.parseDouble(args[2]))) {
                     sender.sendMessage(msgWrap("&cThe player cannot have that amount money."));
                     return false;
                 }
@@ -76,7 +78,7 @@ public class CurrencyCommand implements CommandExecutor {
             }
 
             if (args[2]==null) {
-                if (!currencyExists(args[1])) {
+                if (!getDataConfig().getConfig().contains(args[1])) {
                     sender.sendMessage(msgWrap("&cUnknown currency."));
                     return false;
                 }
@@ -87,6 +89,7 @@ public class CurrencyCommand implements CommandExecutor {
                 sender.sendMessage(bulletWrap("Starting balance: &e"+currency.getStartingBal()));
                 sender.sendMessage(bulletWrap("Minimum balance: &e"+currency.getMinBal()));
                 sender.sendMessage(bulletWrap("Maximum balance: &e"+currency.getMaxBal()));
+                sender.sendMessage(bulletWrap("Provider: &e"+currency.getProvider().getProviderID().toUpperCase()));
             }
 
             if (getPlayer(args[1])==null) {
@@ -94,12 +97,12 @@ public class CurrencyCommand implements CommandExecutor {
                 return false;
             }
 
-            if (!currencyExists(args[2])) {
+            if (!getDataConfig().getConfig().contains(args[2])) {
                 sender.sendMessage(msgWrap("&cUnknown currency."));
                 return false;
             }
 
-            sender.sendMessage(msgWrap("&a"+args[1]+" has "+getBalance(args[2],getPlayer(args[1]).getUniqueId())+" "+args[2]+"."));
+            sender.sendMessage(msgWrap("&a"+args[1]+" has "+new Currency(args[2]).getBalance(getPlayer(args[1]).getUniqueId())+" "+args[2]+"."));
         }
 
         if (args[0].equalsIgnoreCase("create")) {
@@ -108,12 +111,12 @@ public class CurrencyCommand implements CommandExecutor {
                 return false;
             }
 
-            if (currencyExists(args[1])) {
+            if (getDataConfig().getConfig().contains(args[1])) {
                 sender.sendMessage(msgWrap("&cThat currency already exists!"));
                 return false;
             }
 
-            createCurrency(args[1]);
+            new Currency(args[1]);
             sender.sendMessage(msgWrap("&aYou created the currency "+args[1]));
         }
 
@@ -123,13 +126,75 @@ public class CurrencyCommand implements CommandExecutor {
                 return false;
             }
 
-            if (!currencyExists(args[1])) {
+            if (!getDataConfig().getConfig().contains(args[1])) {
                 sender.sendMessage(msgWrap("&cInvalid currency."));
                 return false;
             }
 
-            deleteCurrency(args[1]);
+            new Currency(args[1]).delete();
             sender.sendMessage(msgWrap("&aYou deleted the currency "+args[1]));
+        }
+
+        if (args[0].equalsIgnoreCase("set")) {
+            if (args[4]==null) {
+                sender.sendMessage(msgWrap("&cInvalid amount of arguments."));
+                return false;
+            }
+
+            if (!getDataConfig().getConfig().contains(args[4])) {
+                sender.sendMessage(msgWrap("&cInvalid currency."));
+                return false;
+            }
+
+            Currency currency = new Currency(args[4]);
+
+            switch (args[2]) {
+                case "provider":
+                    if (!getProviders().containsKey(args[3])) {
+                        sender.sendMessage(msgWrap("&cInvalid provider."));
+                        return false;
+                    }
+
+                    currency.setProvider(getProviders().get(args[3]));
+                    sender.sendMessage(msgWrap("&aSet "+currency.getName()+"'s provider to "+currency.getProvider().getProviderID()));
+                    return true;
+                case "startingbal":
+                    try {
+                        Double.parseDouble(args[2]);
+                    } catch (NumberFormatException e) {
+                        sender.sendMessage(msgWrap("&cInvalid amount."));
+                        return false;
+                    }
+
+                    currency.setStartingBal(Double.parseDouble(args[2]));
+                    sender.sendMessage(msgWrap("&aSet "+currency.getName()+"'s starting balance to "+currency.getStartingBal()));
+                    return true;
+                case "minbal":
+                    try {
+                        Double.parseDouble(args[2]);
+                    } catch (NumberFormatException e) {
+                        sender.sendMessage(msgWrap("&cInvalid amount."));
+                        return false;
+                    }
+
+                    currency.setMinBal(Double.parseDouble(args[2]));
+                    sender.sendMessage(msgWrap("&aSet "+currency.getName()+"'s min balance to "+currency.getStartingBal()));
+                    return true;
+                case "maxbal":
+                    try {
+                        Double.parseDouble(args[2]);
+                    } catch (NumberFormatException e) {
+                        sender.sendMessage(msgWrap("&cInvalid amount."));
+                        return false;
+                    }
+
+                    currency.setMaxBal(Double.parseDouble(args[2]));
+                    sender.sendMessage(msgWrap("&aSet "+currency.getName()+"'s max balance to "+currency.getStartingBal()));
+                    return true;
+                default:
+                    sender.sendMessage(msgWrap("&cInvalid option."));
+                    return false;
+            }
         }
 
         if (args[0].equalsIgnoreCase("help")) {
@@ -141,6 +206,7 @@ public class CurrencyCommand implements CommandExecutor {
             sender.sendMessage(wrap("&8> &6/currency <remove|revoke> <player> <amount> <currency> &7- &eRemoves currency from a player."));
             sender.sendMessage(wrap("&8> &6/currency <info|get> <player> <currency> &7- &eGets a player's currency."));
             sender.sendMessage(wrap("&8> &6/currency <info|get> <currency> &7- &eGets data about a currency."));
+            sender.sendMessage(wrap("&8> &6/currency set <option> <value> <currency> &7- &eSets an options' value."));
             sender.sendMessage(wrap("&8> &6/currency create <name> &7- &eCreates a new currency."));
             sender.sendMessage(wrap("&8> &6/currency delete <name> &7- &eDeletes a currency."));
 
