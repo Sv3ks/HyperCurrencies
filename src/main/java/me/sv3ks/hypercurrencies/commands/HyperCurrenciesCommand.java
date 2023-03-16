@@ -1,8 +1,10 @@
 package me.sv3ks.hypercurrencies.commands;
 
+import me.sv3ks.hypercurrencies.utils.UpdateChecker;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import static me.sv3ks.hypercurrencies.HyperCurrencies.*;
 import static me.sv3ks.hypercurrencies.utils.Utils.*;
@@ -38,6 +40,20 @@ public class HyperCurrenciesCommand implements CommandExecutor {
 
             return true;
         }
+
+        if (args[0].equalsIgnoreCase("update")) {
+
+            new UpdateChecker((JavaPlugin) getPlugin(), 108601).getVersion(version -> {
+                if (getPlugin().getDescription().getVersion().equals(version)) {
+                    sender.sendMessage(msgWrap("&aHyperCurrencies is up to date."));
+                } else {
+                    sender.sendMessage(msgWrap("&eThere is a new update available for HyperCurrencies."));
+                }
+            });
+
+            return true;
+        }
+
 
         if (args[0].equalsIgnoreCase("help")) {
 
