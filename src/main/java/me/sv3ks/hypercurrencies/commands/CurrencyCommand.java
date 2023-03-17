@@ -15,7 +15,7 @@ public class CurrencyCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("give")||args[0].equalsIgnoreCase("remove")||args[0].equalsIgnoreCase("revoke")||args[0].equalsIgnoreCase("set")) {
+        if (args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("give")||args[0].equalsIgnoreCase("remove")||args[0].equalsIgnoreCase("revoke")) {
             if (args[3]==null) {
                 sender.sendMessage(msgWrap("&cInvalid amount of arguments."));
                 return false;
@@ -57,16 +57,6 @@ public class CurrencyCommand implements CommandExecutor {
                 }
 
                 sender.sendMessage(msgWrap("&aRemoved "+args[2]+" "+args[3]+" from "+sender.getName()));
-                return true;
-            }
-
-            if (args[0].equalsIgnoreCase("set")) {
-                if (!currency.setBalance(getPlayer(args[1]).getUniqueId(), Double.parseDouble(args[2]))) {
-                    sender.sendMessage(msgWrap("&cThe player cannot have that amount money."));
-                    return false;
-                }
-
-                sender.sendMessage(msgWrap("&aSet "+sender.getName()+"'s "+args[3]+" to "+args[2]));
                 return true;
             }
         }
@@ -136,14 +126,35 @@ public class CurrencyCommand implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("set")) {
-            if (args[4]==null) {
+            if (args[3]==null) {
                 sender.sendMessage(msgWrap("&cInvalid amount of arguments."));
                 return false;
             }
 
-            if (!getDataConfig().getConfig().contains(args[4])) {
-                sender.sendMessage(msgWrap("&cInvalid currency."));
-                return false;
+            if (getPlayer(args[1])!=null) {
+                // Set balance
+
+                if (!getDataConfig().getConfig().contains(args[3])) {
+                    sender.sendMessage(msgWrap("&cUnknown currency."));
+                    return false;
+                }
+
+                try {
+                    Double.parseDouble(args[2]);
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(msgWrap("&cInvalid amount."));
+                    return false;
+                }
+
+                Currency currency = new Currency(args[3]);
+
+                if (!currency.setBalance(getPlayer(args[1]).getUniqueId(), Double.parseDouble(args[2]))) {
+                    sender.sendMessage(msgWrap("&cThe player cannot have that amount money."));
+                    return false;
+                }
+
+                sender.sendMessage(msgWrap("&aSet "+sender.getName()+"'s "+args[3]+" to "+args[2]));
+                return true;
             }
 
             Currency currency = new Currency(args[4]);
@@ -202,11 +213,11 @@ public class CurrencyCommand implements CommandExecutor {
             sender.sendMessage(wrap("&6&lHYPER&e&lCURRENCIES &8- &eCommand syntax:"));
             sender.sendMessage(wrap("&8> &6/currency help &7- &eShows this list."));
             sender.sendMessage(wrap("&8> &6/currency set <player> <amount> <currency> &7- &eSets a player's currency."));
+            sender.sendMessage(wrap("&8> &6/currency set <property> <value> <currency> &7- &eSets an options' value."));
             sender.sendMessage(wrap("&8> &6/currency <add|give> <player> <amount> <currency> &7- &eGives currency to a player."));
             sender.sendMessage(wrap("&8> &6/currency <remove|revoke> <player> <amount> <currency> &7- &eRemoves currency from a player."));
             sender.sendMessage(wrap("&8> &6/currency <info|get> <player> <currency> &7- &eGets a player's currency."));
             sender.sendMessage(wrap("&8> &6/currency <info|get> <currency> &7- &eGets data about a currency."));
-            sender.sendMessage(wrap("&8> &6/currency set <option> <value> <currency> &7- &eSets an options' value."));
             sender.sendMessage(wrap("&8> &6/currency create <name> &7- &eCreates a new currency."));
             sender.sendMessage(wrap("&8> &6/currency delete <name> &7- &eDeletes a currency."));
 
