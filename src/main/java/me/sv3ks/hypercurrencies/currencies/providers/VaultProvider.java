@@ -10,8 +10,9 @@ import static org.bukkit.Bukkit.getPlayer;
 
 public class VaultProvider extends CurrencyProvider {
 
-    public VaultProvider() {
-        providerID = "vault";
+    @Override
+    public String getProviderID() {
+        return "vault";
     }
 
     @Override

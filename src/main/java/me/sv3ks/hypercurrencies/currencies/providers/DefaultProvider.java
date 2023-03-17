@@ -10,8 +10,9 @@ import static me.sv3ks.hypercurrencies.HyperCurrencies.getDataConfig;
 
 public class DefaultProvider extends CurrencyProvider {
 
-    public DefaultProvider() {
-        providerID = "hypercurrencies";
+    @Override
+    public String getProviderID() {
+        return "hypercurrencies";
     }
 
     @Override

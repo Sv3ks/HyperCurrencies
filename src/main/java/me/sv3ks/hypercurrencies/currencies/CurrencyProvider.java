@@ -4,11 +4,7 @@ import java.util.UUID;
 
 public abstract class CurrencyProvider {
 
-    protected String providerID;
-
-    public String getProviderID() {
-        return providerID;
-    }
+    public abstract String getProviderID();
 
     public abstract boolean change(ChangeType type, String name, UUID uuid, double amount);
 
