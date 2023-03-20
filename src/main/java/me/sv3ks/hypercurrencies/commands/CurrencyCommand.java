@@ -150,7 +150,7 @@ public class CurrencyCommand implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("set")) {
-            if (!(args.length>=3)) {
+            if (args.length!=4) {
                 sender.sendMessage(msgWrap("&cInvalid amount of arguments."));
                 return false;
             }
@@ -181,21 +181,21 @@ public class CurrencyCommand implements CommandExecutor {
                 return true;
             }
 
-            if (!currencyExists(args[4])) {
+            if (!currencyExists(args[3])) {
                 sender.sendMessage(msgWrap("&cUnknown currency."));
                 return false;
             }
 
-            Currency currency = new Currency(args[4]);
+            Currency currency = new Currency(args[3]);
 
-            switch (args[2]) {
+            switch (args[1]) {
                 case "provider":
-                    if (!getProviders().containsKey(args[3])) {
+                    if (!getProviders().containsKey(args[2])) {
                         sender.sendMessage(msgWrap("&cInvalid provider."));
                         return false;
                     }
 
-                    currency.setProvider(getProviders().get(args[3]));
+                    currency.setProvider(getProviders().get(args[2]));
                     sender.sendMessage(msgWrap("&aSet "+currency.getName()+"'s provider to "+currency.getProvider().getProviderID()));
                     return true;
                 case "startingbal":
