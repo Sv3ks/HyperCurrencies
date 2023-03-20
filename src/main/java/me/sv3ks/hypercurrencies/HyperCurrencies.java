@@ -7,7 +7,6 @@ import me.sv3ks.hypercurrencies.currencies.providers.DefaultProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.VaultProvider;
 import me.sv3ks.hypercurrencies.utils.Config;
 import me.sv3ks.hypercurrencies.utils.UpdateChecker;
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,7 +17,6 @@ public final class HyperCurrencies extends JavaPlugin {
     private static Plugin plugin;
     private static Config currencyConfig;
     private static Config dataConfig;
-    private static Economy economy;
     private static HashMap<String,CurrencyProvider> providers;
 
     @Override
@@ -27,16 +25,17 @@ public final class HyperCurrencies extends JavaPlugin {
         plugin = this;
         currencyConfig = new Config("currencies.yml");
         dataConfig = new Config("data.yml");
-        economy = getServer().getServicesManager().getRegistration(Economy.class).getProvider();
         providers = new HashMap<>();
 
         currencyConfig.createConfig();
         dataConfig.createConfig();
         getConfig().options().copyDefaults();
+        currencyConfig.reloadConfig();
+        dataConfig.reloadConfig();
         saveDefaultConfig();
 
-        addProvider(new DefaultProvider());
-        addProvider(new VaultProvider());
+        providers.put(new DefaultProvider().getProviderID(),new DefaultProvider());
+        if (getServer().getPluginManager().getPlugin("Vault")!=null) addProvider(new VaultProvider());
 
         this.getCommand("hypercurrencies").setExecutor(new HyperCurrenciesCommand());
         this.getCommand("currency").setExecutor(new CurrencyCommand());
@@ -63,9 +62,6 @@ public final class HyperCurrencies extends JavaPlugin {
     public static Plugin getPlugin() { return plugin; }
     public static Config getCurrencyConfig() { return currencyConfig; }
     public static Config getDataConfig() { return dataConfig; }
-    public static Economy getEconomy() {
-        return economy;
-    }
     public static HashMap<String, CurrencyProvider> getProviders() {
         return providers;
     }

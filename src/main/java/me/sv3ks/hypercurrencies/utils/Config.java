@@ -37,14 +37,19 @@ public class Config {
     public void createConfig() {
         configFile = new File(getPlugin().getDataFolder(), fileName);
         if (!configFile.exists()) {
-            if (!configFile.getParentFile().mkdirs()) getPlugin().getLogger().severe(ChatColor.DARK_RED + "Failed to create necessary directories.");
+            if (!configFile.getParentFile().mkdirs())
+                getPlugin().getLogger().severe(ChatColor.DARK_RED + "Failed to create necessary directories.");
             // dataConfigFile.getParentFile().mkdirs();
             getPlugin().saveResource(fileName, false);
+
+
+            config = new YamlConfiguration();
+
+            YamlConfiguration.loadConfiguration(configFile);
+
+        } else {
+            reloadConfig();
         }
-
-        config = new YamlConfiguration();
-
-        YamlConfiguration.loadConfiguration(configFile);
     }
 
     public void reloadConfig() {

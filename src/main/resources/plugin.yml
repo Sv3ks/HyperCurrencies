@@ -1,7 +1,7 @@
-name: Hyper
+name: HyperCurrencies
 version: '${project.version}'
-main: me.sv3ks.hyper.HyperCurrencies
-api-version: 1.8
+main: me.sv3ks.hypercurrencies.HyperCurrencies
+api-version: 1.19
 prefix: HyperCurrencies
 authors: [ Sv3ks ]
 description: Adds customizable currencies to Spigot.
@@ -11,10 +11,10 @@ commands:
   hypercurrencies:
     permission: hypercurrencies.admin
     aliases:
-      - /hc
+      - hc
     description: The main command of HyperCurrencies.
   currency:
     permission: hypercurrencies.currency
     aliases:
-      - /c
+      - c
     description: Manages currencies.

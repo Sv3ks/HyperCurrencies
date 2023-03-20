@@ -1,8 +1,12 @@
 package me.sv3ks.hypercurrencies.currencies;
 
+import me.sv3ks.hypercurrencies.currencies.providers.DefaultProvider;
+
+import java.util.Arrays;
 import java.util.UUID;
 
 import static me.sv3ks.hypercurrencies.HyperCurrencies.*;
+import static org.bukkit.Bukkit.getPlayer;
 
 public class Currency {
 
@@ -24,20 +28,21 @@ public class Currency {
         this.name = name;
 
         // Starting bal
-        if (getCurrencyConfig().getConfig().get("starting-bal")==null) this.startingBal = 0;
-        else this.startingBal = getCurrencyConfig().getConfig().getDouble("starting-bal");
+        if (getCurrencyConfig().getConfig().get(name+".starting-bal")==null) this.startingBal = 0;
+        else this.startingBal = getCurrencyConfig().getConfig().getDouble(name+".starting-bal");
 
         // Min bal
-        if (getCurrencyConfig().getConfig().get("min-bal")==null) this.minBal = 0;
-        else this.minBal = getCurrencyConfig().getConfig().getDouble("starting-bal");
+        if (getCurrencyConfig().getConfig().get(name+".min-bal")==null) this.minBal = 0;
+        else this.minBal = getCurrencyConfig().getConfig().getDouble(name+".min-bal");
 
         // Max bal
-        if (getCurrencyConfig().getConfig().get("max-bal")==null) this.maxBal = 0;
-        else this.maxBal = getCurrencyConfig().getConfig().getDouble("max-bal");
+        if (getCurrencyConfig().getConfig().get(name+".max-bal")==null) this.maxBal = 1000000000000000000d;
+        else this.maxBal = getCurrencyConfig().getConfig().getDouble(name+".max-bal");
 
         // Provider
-        if (getCurrencyConfig().getConfig().get("provider")==null) this.provider = getProviders().get("hypercurrencies");
-        else this.provider = getProviders().get(getCurrencyConfig().getConfig().getString("provider"));
+        if (getCurrencyConfig().getConfig().get(name+".provider")==null) this.provider = getProviders().get("hypercurrencies");
+        else this.provider = getProviders().get(getCurrencyConfig().getConfig().getString(name+".provider"));
+        getCurrencyConfig().saveConfig();
     }
 
     public void delete() {
@@ -50,15 +55,15 @@ public class Currency {
     // Setters
 
     public boolean addBalance(UUID player, double amount) {
-        return getProviders().get(name).change(ChangeType.ADD,name,player,amount);
+        return getProviders().get(getProvider().getProviderID()).change(ChangeType.ADD,name,player,amount);
     }
 
     public boolean removeBalance(UUID player, double amount) {
-        return getProviders().get(name).change(ChangeType.REMOVE,name,player,amount);
+        return getProviders().get(getProvider().getProviderID()).change(ChangeType.REMOVE,name,player,amount);
     }
 
     public boolean setBalance(UUID player, double amount) {
-        return getProviders().get(name).change(ChangeType.SET,name,player,amount);
+        return getProviders().get(getProvider().getProviderID()).change(ChangeType.SET,name,player,amount);
     }
 
     public void setProvider(CurrencyProvider provider) {
@@ -88,7 +93,7 @@ public class Currency {
     // Getters
 
     public double getBalance(UUID player) {
-        return getProviders().get(name).get(name,player);
+        return getProviders().get(getProvider().getProviderID()).get(name,player);
     }
 
     public String getName() {
@@ -161,12 +166,11 @@ public class Currency {
     }
 
     @Deprecated
-    public static boolean currencyExists(String name) {
-        return getDataConfig().getConfig().contains(name);
-    }
-
-    @Deprecated
     public static boolean hasBalance(String name, UUID player) {
         return getDataConfig().getConfig().get(name+"."+player)!=null;
+    }
+
+    public static boolean currencyExists(String name) {
+        return getCurrencyConfig().getConfig().isConfigurationSection(name);
     }
 }

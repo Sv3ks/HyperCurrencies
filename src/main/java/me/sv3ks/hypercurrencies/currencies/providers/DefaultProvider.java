@@ -7,6 +7,7 @@ import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 import java.util.UUID;
 
 import static me.sv3ks.hypercurrencies.HyperCurrencies.getDataConfig;
+import static org.bukkit.Bukkit.getPlayer;
 
 public class DefaultProvider extends CurrencyProvider {
 
@@ -20,6 +21,7 @@ public class DefaultProvider extends CurrencyProvider {
         Currency currency = new Currency(name);
         switch (type) {
             case ADD:
+
                 if (
                         amount+currency.getBalance(uuid)>currency.getMaxBal()
                 ) {
@@ -39,8 +41,8 @@ public class DefaultProvider extends CurrencyProvider {
                 break;
             case SET:
                 if (
-                        currency.getBalance(uuid)-amount<currency.getMinBal()||
-                                amount+currency.getBalance(uuid)>currency.getMaxBal()
+                        amount<currency.getMinBal()||
+                                amount>currency.getMaxBal()
                 ) {
                     return false;
                 }
@@ -55,7 +57,10 @@ public class DefaultProvider extends CurrencyProvider {
 
     @Override
     public double get(String name, UUID uuid) {
-        if (getDataConfig().getConfig().get(name+"."+uuid)!=null) new Currency(name).setBalance(uuid,new Currency(name).getStartingBal());
+        if (getDataConfig().getConfig().get(name+"."+uuid)==null) {
+            getDataConfig().getConfig().set(name+"."+uuid,new Currency(name).getStartingBal());
+            getDataConfig().saveConfig();
+        }
 
         return getDataConfig().getConfig().getDouble(name+"."+uuid);
     }

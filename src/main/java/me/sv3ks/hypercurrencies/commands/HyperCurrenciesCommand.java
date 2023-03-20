@@ -13,9 +13,14 @@ public class HyperCurrenciesCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (args[0]==null) {
-            sender.sendMessage(msgWrap("&cUse /hyper help for help."));
-            return false;
+        if (args.length==0||args[0].equalsIgnoreCase("help")) {
+
+            sender.sendMessage(wrap("&6&lHYPER&e&lCURRENCIES &8- &eCommand syntax:"));
+            sender.sendMessage(wrap("&8> &6/hyper help &7- &eShows this list."));
+            sender.sendMessage(wrap("&8> &6/hyper <reload|rl> &7- &eReloads HyperCurrencies' data."));
+            sender.sendMessage(wrap("&8> &6/hyper info &7- &eShows info about HyperCurrencies."));
+
+            return true;
         }
 
         if (args[0].equalsIgnoreCase("reload")||args[0].equalsIgnoreCase("rl")) {
@@ -50,17 +55,6 @@ public class HyperCurrenciesCommand implements CommandExecutor {
                     sender.sendMessage(msgWrap("&eThere is a new update available for HyperCurrencies."));
                 }
             });
-
-            return true;
-        }
-
-
-        if (args[0].equalsIgnoreCase("help")) {
-
-            sender.sendMessage(wrap("&6&lHYPER&e&lCURRENCIES &8- &eCommand syntax:"));
-            sender.sendMessage(wrap("&8> &6/hyper help &7- &eShows this list."));
-            sender.sendMessage(wrap("&8> &6/hyper <reload|rl> &7- &eReloads HyperCurrencies' data."));
-            sender.sendMessage(wrap("&8> &6/hyper info &7- &eShows info about HyperCurrencies."));
 
             return true;
         }
