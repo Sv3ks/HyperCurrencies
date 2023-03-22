@@ -42,6 +42,13 @@ public class HyperCurrenciesCommand implements CommandExecutor {
             sender.sendMessage(bulletWrap("Authors: &e"+getPlugin().getDescription().getAuthors()));
             sender.sendMessage(bulletWrap("Website: &e"+getPlugin().getDescription().getWebsite()));
             sender.sendMessage(bulletWrap("Prefix: &e"+getPlugin().getDescription().getPrefix()));
+            new UpdateChecker((JavaPlugin) getPlugin(), 108601).getVersion(version -> {
+                if (getPlugin().getDescription().getVersion().equals(version)) {
+                    sender.sendMessage(bulletWrap("Up to date: &eYes"));
+                } else {
+                    sender.sendMessage(bulletWrap("Up to date: &eNo (&6Newest: "+version+"&e)"));
+                }
+            });
 
             return true;
         }

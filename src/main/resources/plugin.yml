@@ -1,7 +1,6 @@
 name: HyperCurrencies
 version: '${project.version}'
 main: me.sv3ks.hypercurrencies.HyperCurrencies
-api-version: 1.19
 prefix: HyperCurrencies
 authors: [ Sv3ks ]
 description: Adds customizable currencies to Spigot.
