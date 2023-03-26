@@ -61,7 +61,7 @@ public class CurrencyCommand implements CommandExecutor {
                     return false;
                 }
 
-                sender.sendMessage(msgWrap("&aGave "+args[2]+" "+args[3]+" to "+sender.getName()));
+                sender.sendMessage(msgWrap("&aGave "+args[2]+" "+args[3]+" to "+args[1]));
                 return true;
             }
 
@@ -71,7 +71,7 @@ public class CurrencyCommand implements CommandExecutor {
                     return false;
                 }
 
-                sender.sendMessage(msgWrap("&aRemoved "+args[2]+" "+args[3]+" from "+sender.getName()));
+                sender.sendMessage(msgWrap("&aRemoved "+args[2]+" "+args[3]+" from "+args[1]));
                 return true;
             }
         }
@@ -177,7 +177,7 @@ public class CurrencyCommand implements CommandExecutor {
                     return false;
                 }
 
-                sender.sendMessage(msgWrap("&aSet "+sender.getName()+"'s "+args[3]+" to "+args[2]));
+                sender.sendMessage(msgWrap("&aSet "+args[1]+"'s "+args[3]+" to "+args[2]));
                 return true;
             }
 

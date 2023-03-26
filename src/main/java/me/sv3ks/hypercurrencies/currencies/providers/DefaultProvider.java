@@ -23,6 +23,7 @@ public class DefaultProvider extends CurrencyProvider {
             case ADD:
 
                 if (
+                        currency.getBalance(uuid)-amount<currency.getMinBal()||
                         amount+currency.getBalance(uuid)>currency.getMaxBal()
                 ) {
                     return false;
@@ -32,7 +33,8 @@ public class DefaultProvider extends CurrencyProvider {
                 break;
             case REMOVE:
                 if (
-                        currency.getBalance(uuid)-amount<currency.getMinBal()
+                        currency.getBalance(uuid)-amount<currency.getMinBal()||
+                        amount+currency.getBalance(uuid)>currency.getMaxBal()
                 ) {
                     return false;
                 }
