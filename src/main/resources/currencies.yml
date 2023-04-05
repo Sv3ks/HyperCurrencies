@@ -22,5 +22,3 @@ dummy-mysql-currency:
     url: ''
     username: ''
     password: ''
-    table: ''
-    # TABLE: uuid (Text) | value (Text)
