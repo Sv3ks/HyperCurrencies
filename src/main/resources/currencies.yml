@@ -1,9 +1,5 @@
 # NOTE: When you've changed anything in this file, use /hc reload!
 
-# This is the example currency.
-# All options inside the currency is optional.
-# If they're not set, they will be like this by default.
-
 dummy-currency:
   starting-bal: 0
   min-bal: 0

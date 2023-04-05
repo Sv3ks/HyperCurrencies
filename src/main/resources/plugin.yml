@@ -17,3 +17,8 @@ commands:
     aliases:
       - c
     description: Manages currencies.
+  balance:
+    permission: hypercurrencies.bal
+    description: Check your balance in one or all currencies.
+    aliases:
+      - bal

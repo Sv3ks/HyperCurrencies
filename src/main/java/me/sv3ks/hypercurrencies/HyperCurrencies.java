@@ -1,7 +1,8 @@
 package me.sv3ks.hypercurrencies;
 
-import me.sv3ks.hypercurrencies.commands.CurrencyCommand;
-import me.sv3ks.hypercurrencies.commands.HyperCurrenciesCommand;
+import me.sv3ks.hypercurrencies.commands.corecommands.CurrencyCommand;
+import me.sv3ks.hypercurrencies.commands.corecommands.HyperCurrenciesCommand;
+import me.sv3ks.hypercurrencies.commands.playercommands.BalanceCommand;
 import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.DefaultProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.SQLProvider;
@@ -39,8 +40,12 @@ public final class HyperCurrencies extends JavaPlugin {
         addProvider(new SQLProvider());
         if (getServer().getPluginManager().getPlugin("Vault")!=null) addProvider(new VaultProvider());
 
+        // Core Commands
         this.getCommand("hypercurrencies").setExecutor(new HyperCurrenciesCommand());
         this.getCommand("currency").setExecutor(new CurrencyCommand());
+
+        // Player Commands
+        this.getCommand("balance").setExecutor(new BalanceCommand());
 
         if (getConfig().getBoolean("check-for-updates")) {
             new UpdateChecker(this, 108601).getVersion(version -> {

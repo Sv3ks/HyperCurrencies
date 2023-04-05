@@ -1,4 +1,4 @@
-package me.sv3ks.hypercurrencies.commands;
+package me.sv3ks.hypercurrencies.commands.corecommands;
 
 import me.sv3ks.hypercurrencies.utils.UpdateChecker;
 import org.bukkit.command.Command;

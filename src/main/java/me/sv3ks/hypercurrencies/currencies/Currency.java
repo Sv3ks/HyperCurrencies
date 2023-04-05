@@ -171,6 +171,6 @@ public class Currency {
     }
 
     public static boolean currencyExists(String name) {
-        return getCurrencyConfig().getConfig().isConfigurationSection(name);
+        return getCurrencyConfig().getConfig().getKeys(false).contains(name);
     }
 }
