@@ -4,13 +4,13 @@ import me.sv3ks.hypercurrencies.currencies.ChangeType;
 import me.sv3ks.hypercurrencies.currencies.Currency;
 import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-import static me.sv3ks.hypercurrencies.HyperCurrencies.*;
+import static me.sv3ks.hypercurrencies.HyperCurrencies.getCurrencyConfig;
+import static me.sv3ks.hypercurrencies.HyperCurrencies.getDataConfig;
 import static me.sv3ks.hypercurrencies.hooks.SQLHook.getConnection;
 
 public class SQLProvider extends CurrencyProvider {
@@ -22,6 +22,7 @@ public class SQLProvider extends CurrencyProvider {
     @Override
     public boolean change(ChangeType type, String name, UUID uuid, double amount) {
         final Currency currency = new Currency(name);
+        final String table = getCurrencyConfig().getConfig().getString(name+".db-info.table");
         try {
             switch (type) {
                 case ADD:
@@ -33,7 +34,7 @@ public class SQLProvider extends CurrencyProvider {
                         return false;
                     }
 
-                    getConnection(name).prepareStatement("UPDATE "+name+" SET value='"+(get(name, uuid)+amount)+"' WHERE uuid="+uuid).executeQuery();
+                    getConnection(name).prepareStatement("UPDATE "+table+" SET value='"+(get(name, uuid)+amount)+"' WHERE uuid="+uuid).executeQuery();
                     break;
                 case REMOVE:
                     if (
@@ -43,7 +44,7 @@ public class SQLProvider extends CurrencyProvider {
                         return false;
                     }
 
-                    getConnection(name).prepareStatement("UPDATE "+name+" SET value='"+(get(name, uuid)-amount)+"' WHERE uuid="+uuid).executeQuery();
+                    getConnection(name).prepareStatement("UPDATE "+table+" SET value='"+(get(name, uuid)-amount)+"' WHERE uuid="+uuid).executeQuery();
                     break;
                 case SET:
                     if (
@@ -53,7 +54,7 @@ public class SQLProvider extends CurrencyProvider {
                         return false;
                     }
 
-                    getConnection(name).prepareStatement("UPDATE "+name+" SET value='"+amount+"' WHERE uuid="+uuid).executeQuery();
+                    getConnection(name).prepareStatement("UPDATE "+table+" SET value='"+amount+"' WHERE uuid="+uuid).executeQuery();
                     break;
             }
         } catch (Exception e) {
@@ -67,30 +68,20 @@ public class SQLProvider extends CurrencyProvider {
 
     @Override
     public double get(String name, UUID uuid) {
+        final double balance;
         final double startingBalance = getCurrencyConfig().getConfig().getDouble(name+".starting-bal");
-        final Connection conn;
+        final String table = getCurrencyConfig().getConfig().getString(name+".db-info.table");
+
         try {
-            conn = getConnection(name);
-
-            // Check if table exists
-            ResultSet exists = conn.createStatement().executeQuery("EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '"+name+"'))");
-
-            if (!tableExistsSQL(conn,name)) {
-                conn.createStatement().executeUpdate("CREATE TABLE "+name+" (" +
-                        "   uuid varchar(255), " +
-                        "   first varchar(255) " +
-                        "   )");
-                getPlugin().getLogger().info("Created SQL table: "+name);
-            }
 
             // Get balance
-            ResultSet resultSet = conn.createStatement().executeQuery("SELECT * FROM "+name+" WHERE UUID='"+uuid+"'");
+            ResultSet resultSet = getConnection(name).createStatement().executeQuery("SELECT * FROM "+table+" WHERE UUID='"+uuid+"'");
 
             // Check if balance is set
             if (resultSet.getObject("VALUE")==null) {
                 // Set balance & return starting balance
 
-                conn.prepareStatement("INSERT INTO "+name+" (uuid, value) VALUES ('"+uuid.toString()+"', '"+startingBalance+"')").executeQuery();
+                getConnection(name).prepareStatement("INSERT INTO "+table+" (uuid, value) VALUES ('"+uuid.toString()+"', '"+startingBalance+"')").executeQuery();
 
                 return startingBalance;
             } else {
@@ -101,17 +92,5 @@ public class SQLProvider extends CurrencyProvider {
             e.printStackTrace();
             return Math.PI;
         }
-    }
-
-    static boolean tableExistsSQL(Connection connection, String tableName) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT count(*) "
-                + "FROM information_schema.tables "
-                + "WHERE table_name = ?"
-                + "LIMIT 1;");
-        preparedStatement.setString(1, tableName);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-        resultSet.next();
-        return resultSet.getInt(1) != 0;
     }
 }
