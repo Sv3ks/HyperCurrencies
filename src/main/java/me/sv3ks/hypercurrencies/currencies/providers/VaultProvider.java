@@ -5,7 +5,7 @@ import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 
 import java.util.UUID;
 
-import static me.sv3ks.hypercurrencies.utils.VaultHook.getEconomy;
+import static me.sv3ks.hypercurrencies.hooks.VaultHook.getEconomy;
 import static org.bukkit.Bukkit.getPlayer;
 
 public class VaultProvider extends CurrencyProvider {

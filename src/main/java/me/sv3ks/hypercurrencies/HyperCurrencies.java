@@ -4,6 +4,7 @@ import me.sv3ks.hypercurrencies.commands.CurrencyCommand;
 import me.sv3ks.hypercurrencies.commands.HyperCurrenciesCommand;
 import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.DefaultProvider;
+import me.sv3ks.hypercurrencies.currencies.providers.SQLProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.VaultProvider;
 import me.sv3ks.hypercurrencies.utils.Config;
 import me.sv3ks.hypercurrencies.utils.UpdateChecker;
@@ -34,7 +35,8 @@ public final class HyperCurrencies extends JavaPlugin {
         dataConfig.reloadConfig();
         saveDefaultConfig();
 
-        providers.put(new DefaultProvider().getProviderID(),new DefaultProvider());
+        addProvider(new DefaultProvider());
+        addProvider(new SQLProvider());
         if (getServer().getPluginManager().getPlugin("Vault")!=null) addProvider(new VaultProvider());
 
         this.getCommand("hypercurrencies").setExecutor(new HyperCurrenciesCommand());

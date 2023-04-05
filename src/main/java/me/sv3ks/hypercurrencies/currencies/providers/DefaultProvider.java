@@ -7,7 +7,6 @@ import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 import java.util.UUID;
 
 import static me.sv3ks.hypercurrencies.HyperCurrencies.getDataConfig;
-import static org.bukkit.Bukkit.getPlayer;
 
 public class DefaultProvider extends CurrencyProvider {
 
@@ -23,7 +22,7 @@ public class DefaultProvider extends CurrencyProvider {
             case ADD:
 
                 if (
-                        currency.getBalance(uuid)-amount<currency.getMinBal()||
+                        (get(name, uuid)+"").startsWith("-")||
                         amount+currency.getBalance(uuid)>currency.getMaxBal()
                 ) {
                     return false;
@@ -34,7 +33,7 @@ public class DefaultProvider extends CurrencyProvider {
             case REMOVE:
                 if (
                         currency.getBalance(uuid)-amount<currency.getMinBal()||
-                        amount+currency.getBalance(uuid)>currency.getMaxBal()
+                                (get(name, uuid)+"").startsWith("-")
                 ) {
                     return false;
                 }

@@ -1,4 +1,4 @@
-package me.sv3ks.hypercurrencies.utils;
+package me.sv3ks.hypercurrencies.hooks;
 
 import net.milkbowl.vault.economy.Economy;
 

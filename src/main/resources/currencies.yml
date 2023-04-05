@@ -8,4 +8,19 @@ dummy-currency:
   starting-bal: 0
   min-bal: 0
   max-bal: 1000000000000000000
-  provider: 'hypercurrencies'
+  # NOT NEEDED -> provider: 'hypercurrencies'
+
+dummy-vault-currency:
+  provider: 'vault'
+
+dummy-mysql-currency:
+  starting-bal: 0
+  min-bal: 0
+  max-bal: 1000000000000000000
+  provider: 'hc-sql'
+  db-info:
+    url: ''
+    username: ''
+    password: ''
+    table: ''
+    # TABLE: uuid (Text) | value (Text)

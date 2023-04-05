@@ -38,7 +38,7 @@ public class Config {
         configFile = new File(getPlugin().getDataFolder(), fileName);
         if (!configFile.exists()) {
             if (!configFile.getParentFile().mkdirs())
-                getPlugin().getLogger().severe(ChatColor.DARK_RED + "Failed to create necessary directories.");
+                getPlugin().getLogger().severe("Failed to create necessary directories.");
             // dataConfigFile.getParentFile().mkdirs();
             getPlugin().saveResource(fileName, false);
 
