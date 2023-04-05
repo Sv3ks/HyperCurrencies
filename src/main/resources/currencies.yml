@@ -18,7 +18,7 @@ dummy-mysql-currency:
   min-bal: 0
   max-bal: 1000000000000000000
   provider: 'hc-sql'
-  db-info:
+  sql:
     url: ''
     username: ''
     password: ''
