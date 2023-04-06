@@ -4,15 +4,21 @@ dummy-currency:
   starting-bal: 0
   min-bal: 0
   max-bal: 1000000000000000000
+  pay: true
+  pay-min: 1
   # NOT NEEDED -> provider: 'hypercurrencies'
 
 dummy-vault-currency:
+  pay: true
+  pay-min: 1
   provider: 'vault'
 
 dummy-mysql-currency:
   starting-bal: 0
   min-bal: 0
   max-bal: 1000000000000000000
+  pay: true
+  pay-min: 1
   provider: 'hc-sql'
   db-info:
     url: ''

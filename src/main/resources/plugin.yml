@@ -27,3 +27,6 @@ commands:
     description: View a list of the top 10 players with the most balance of a currency.
     aliases:
       - baltop
+  pay:
+    permission: hypercurrencies.pay
+    description: Pay a specific amount of balance to a player.
