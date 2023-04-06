@@ -9,6 +9,7 @@ import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.DefaultProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.SQLProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.VaultProvider;
+import me.sv3ks.hypercurrencies.hooks.PlaceholderAPIHook;
 import me.sv3ks.hypercurrencies.utils.Config;
 import me.sv3ks.hypercurrencies.utils.UpdateChecker;
 import org.bukkit.plugin.Plugin;
@@ -60,6 +61,9 @@ public final class HyperCurrencies extends JavaPlugin {
                 }
             });
         }
+
+        // PlaceholderAPI registration
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI")!=null) new PlaceholderAPIHook().register();
 
         this.getLogger().info("Hyper was enabled");
 
