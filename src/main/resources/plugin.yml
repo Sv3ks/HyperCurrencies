@@ -18,7 +18,12 @@ commands:
       - c
     description: Manages currencies.
   balance:
-    permission: hypercurrencies.bal
+    permission: hypercurrencies.balance
     description: Check your balance in one or all currencies.
     aliases:
       - bal
+  balancetop:
+    permission: hypercurrencies.balancetop
+    description: View a list of the top 10 players with the most balance of a currency.
+    aliases:
+      - baltop
