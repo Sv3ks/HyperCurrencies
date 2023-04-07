@@ -33,7 +33,7 @@ public class SQLProvider extends CurrencyProvider {
                         return false;
                     }
 
-                    getConnection(name).prepareStatement("UPDATE "+name+" SET value='"+(get(name, uuid)+amount)+"' WHERE uuid="+uuid).executeQuery();
+                    getConnection(name).prepareStatement("UPDATE "+name+" SET value='"+(get(name, uuid)+amount)+"' WHERE uuid="+uuid).executeUpdate();
                     break;
                 case REMOVE:
                     if (
@@ -43,7 +43,7 @@ public class SQLProvider extends CurrencyProvider {
                         return false;
                     }
 
-                    getConnection(name).prepareStatement("UPDATE "+name+" SET value='"+(get(name, uuid)-amount)+"' WHERE uuid="+uuid).executeQuery();
+                    getConnection(name).prepareStatement("UPDATE "+name+" SET value='"+(get(name, uuid)-amount)+"' WHERE uuid="+uuid).executeUpdate();
                     break;
                 case SET:
                     if (
@@ -53,7 +53,7 @@ public class SQLProvider extends CurrencyProvider {
                         return false;
                     }
 
-                    getConnection(name).prepareStatement("UPDATE "+name+" SET value='"+amount+"' WHERE uuid="+uuid).executeQuery();
+                    getConnection(name).prepareStatement("UPDATE "+name+" SET value='"+amount+"' WHERE uuid="+uuid).executeUpdate();
                     break;
             }
         } catch (Exception e) {
@@ -72,16 +72,7 @@ public class SQLProvider extends CurrencyProvider {
         try {
             conn = getConnection(name);
 
-            // Check if table exists
-            ResultSet exists = conn.createStatement().executeQuery("EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '"+name+"'))");
-
-            if (!tableExistsSQL(conn,name)) {
-                conn.createStatement().executeUpdate("CREATE TABLE "+name+" (" +
-                        "   uuid varchar(255), " +
-                        "   first varchar(255) " +
-                        "   )");
-                getPlugin().getLogger().info("Created SQL table: "+name);
-            }
+            conn.createStatement().execute(String.format("CREATE TABLE IF NOT EXISTS %s(uuid varchar(255), value varchar(255))",name));
 
             // Get balance
             ResultSet resultSet = conn.createStatement().executeQuery("SELECT * FROM "+name+" WHERE UUID='"+uuid+"'");
@@ -90,7 +81,7 @@ public class SQLProvider extends CurrencyProvider {
             if (resultSet.getObject("VALUE")==null) {
                 // Set balance & return starting balance
 
-                conn.prepareStatement("INSERT INTO "+name+" (uuid, value) VALUES ('"+uuid.toString()+"', '"+startingBalance+"')").executeQuery();
+                conn.prepareStatement("INSERT INTO "+name+" (uuid, value) VALUES ('"+uuid.toString()+"', '"+startingBalance+"')").executeUpdate();
 
                 return startingBalance;
             } else {
@@ -103,6 +94,8 @@ public class SQLProvider extends CurrencyProvider {
         }
     }
 
+
+    @Deprecated
     static boolean tableExistsSQL(Connection connection, String tableName) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT count(*) "
                 + "FROM information_schema.tables "
