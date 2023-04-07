@@ -1,38 +1,28 @@
-
-# DISCLAIMER: It is recommended for new users to use the /currency command to manage currencies.
-
 # NOTE: When you've changed anything in this file, use /hc reload!
-
-
-
-# This is the example currency.
-# Adjust the properties for your likings.
 
 dummy-currency:
   starting-bal: 0
   min-bal: 0
   max-bal: 1000000000000000000
-  provider: 'hypercurrencies'
-
-
-
-# This is the example currency for synchronizing Vault and HyperCurrencies.
-# No properties are needed when the provider is set to vault.
+  pay: true
+  pay-min: 1
+  # NOT NEEDED -> provider: 'hypercurrencies'
 
 dummy-vault-currency:
+  pay: true
+  pay-min: 1
   provider: 'vault'
-
-
-
-# This is the example currency for managing a currency with HyperCurrencies' built-in SQL provider.
-# All properties under SQL is required for establishing a connection to the desired database.
 
 dummy-mysql-currency:
   starting-bal: 0
   min-bal: 0
   max-bal: 1000000000000000000
+  pay: true
+  pay-min: 1
   provider: 'hc-sql'
-  sql:
+  db-info:
     url: ''
     username: ''
     password: ''
+    table: ''
+    # TABLE: uuid (Text) | value (Text)

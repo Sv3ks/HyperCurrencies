@@ -5,7 +5,7 @@ prefix: HyperCurrencies
 authors: [ Sv3ks ]
 description: Adds customizable currencies to Spigot.
 website: https://www.github.com/Sv3ks/
-softdepend: [ Vault ]
+softdepend: [ Vault, PlaceholderAPI ]
 commands:
   hypercurrencies:
     permission: hypercurrencies.admin
@@ -17,3 +17,16 @@ commands:
     aliases:
       - c
     description: Manages currencies.
+  balance:
+    permission: hypercurrencies.balance
+    description: Check your balance in one or all currencies.
+    aliases:
+      - bal
+  balancetop:
+    permission: hypercurrencies.balancetop
+    description: View a list of the top 10 players with the most balance of a currency.
+    aliases:
+      - baltop
+  pay:
+    permission: hypercurrencies.pay
+    description: Pay a specific amount of balance to a player.

@@ -1,8 +1,5 @@
 package me.sv3ks.hypercurrencies.currencies;
 
-import me.sv3ks.hypercurrencies.currencies.providers.DefaultProvider;
-
-import java.util.Arrays;
 import java.util.UUID;
 
 import static me.sv3ks.hypercurrencies.HyperCurrencies.*;
@@ -15,6 +12,8 @@ public class Currency {
     private double startingBal;
     private double minBal;
     private double maxBal;
+    private boolean payState;
+    private double payMin;
 
     public Currency(String name) {
         if (getCurrencyConfig().getConfig().get(name)==null) {
@@ -42,6 +41,15 @@ public class Currency {
         // Provider
         if (getCurrencyConfig().getConfig().get(name+".provider")==null) this.provider = getProviders().get("hypercurrencies");
         else this.provider = getProviders().get(getCurrencyConfig().getConfig().getString(name+".provider"));
+
+        // Pay
+        if (getCurrencyConfig().getConfig().get(name+".pay")==null) this.payState = true;
+        else this.payState = getCurrencyConfig().getConfig().getBoolean(name+".pay");
+
+        // Pay Min
+        if (getCurrencyConfig().getConfig().get(name+".pay-min")==null) this.payMin = 1;
+        else this.payMin = getCurrencyConfig().getConfig().getDouble(name+".pay-min");
+
         getCurrencyConfig().saveConfig();
     }
 
@@ -90,6 +98,18 @@ public class Currency {
         getCurrencyConfig().saveConfig();
     }
 
+    public void setPayState(boolean state) {
+        payState = state;
+        getCurrencyConfig().getConfig().set(name+".pay",state);
+        getCurrencyConfig().saveConfig();
+    }
+
+    public void setPayMin(double amount) {
+        payMin = amount;
+        getCurrencyConfig().getConfig().set(name+".pay-min",amount);
+        getCurrencyConfig().saveConfig();
+    }
+
     // Getters
 
     public double getBalance(UUID player) {
@@ -114,6 +134,14 @@ public class Currency {
 
     public double getMaxBal() {
         return maxBal;
+    }
+
+    public boolean getPayState() {
+        return payState;
+    }
+
+    public double getPayMin() {
+        return payMin;
     }
 
     @Deprecated
@@ -171,6 +199,6 @@ public class Currency {
     }
 
     public static boolean currencyExists(String name) {
-        return getCurrencyConfig().getConfig().isConfigurationSection(name);
+        return getCurrencyConfig().getConfig().getKeys(false).contains(name);
     }
 }

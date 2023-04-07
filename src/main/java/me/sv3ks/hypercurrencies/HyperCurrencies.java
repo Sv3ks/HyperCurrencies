@@ -1,11 +1,15 @@
 package me.sv3ks.hypercurrencies;
 
-import me.sv3ks.hypercurrencies.commands.CurrencyCommand;
-import me.sv3ks.hypercurrencies.commands.HyperCurrenciesCommand;
+import me.sv3ks.hypercurrencies.commands.corecommands.CurrencyCommand;
+import me.sv3ks.hypercurrencies.commands.corecommands.HyperCurrenciesCommand;
+import me.sv3ks.hypercurrencies.commands.playercommands.BalanceCommand;
+import me.sv3ks.hypercurrencies.commands.playercommands.BalancetopCommand;
+import me.sv3ks.hypercurrencies.commands.playercommands.PayCommand;
 import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.DefaultProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.SQLProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.VaultProvider;
+import me.sv3ks.hypercurrencies.hooks.PlaceholderAPIHook;
 import me.sv3ks.hypercurrencies.utils.Config;
 import me.sv3ks.hypercurrencies.utils.UpdateChecker;
 import org.bukkit.plugin.Plugin;
@@ -39,8 +43,14 @@ public final class HyperCurrencies extends JavaPlugin {
         addProvider(new SQLProvider());
         if (getServer().getPluginManager().getPlugin("Vault")!=null) addProvider(new VaultProvider());
 
+        // Core Commands
         this.getCommand("hypercurrencies").setExecutor(new HyperCurrenciesCommand());
         this.getCommand("currency").setExecutor(new CurrencyCommand());
+
+        // Player Commands
+        this.getCommand("balance").setExecutor(new BalanceCommand());
+        this.getCommand("balancetop").setExecutor(new BalancetopCommand());
+        this.getCommand("pay").setExecutor(new PayCommand());
 
         if (getConfig().getBoolean("check-for-updates")) {
             new UpdateChecker(this, 108601).getVersion(version -> {
@@ -51,6 +61,9 @@ public final class HyperCurrencies extends JavaPlugin {
                 }
             });
         }
+
+        // PlaceholderAPI registration
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI")!=null) new PlaceholderAPIHook().register();
 
         this.getLogger().info("Hyper was enabled");
 
