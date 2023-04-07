@@ -8,7 +8,7 @@ import static me.sv3ks.hypercurrencies.HyperCurrencies.getCurrencyConfig;
 
 public class SQLHook {
     public static Connection getConnection(String currency) throws SQLException {
-        final String currencyPath = currency+".db-info.";
+        final String currencyPath = currency+".sql.";
         final String url = getCurrencyConfig().getConfig().getString(currencyPath+"url");
         final String username = getCurrencyConfig().getConfig().getString(currencyPath+"username");
         final String password = getCurrencyConfig().getConfig().getString(currencyPath+"password");

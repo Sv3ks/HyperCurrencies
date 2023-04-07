@@ -231,6 +231,36 @@ public class CurrencyCommand implements CommandExecutor {
                     currency.setMaxBal(Double.parseDouble(args[2]));
                     sender.sendMessage(msgWrap("&aSet "+currency.getName()+"'s max balance to "+currency.getStartingBal()));
                     return true;
+                case "sql:url":
+                    if (!currency.getProvider().getProviderID().equalsIgnoreCase("hc-sql")) {
+                        sender.sendMessage(msgWrap("&c"+currency.getName()+" is not using SQL as its provider."));
+                        return false;
+                    }
+
+                    getCurrencyConfig().getConfig().set(currency.getName()+".sql.url",args[2]);
+
+                    sender.sendMessage(msgWrap("&aSet "+currency.getName()+"'s SQL url to "+args[3]+"&c."));
+                    return true;
+                case "sql:username":
+                    if (!currency.getProvider().getProviderID().equalsIgnoreCase("hc-sql")) {
+                        sender.sendMessage(msgWrap("&c"+currency.getName()+" is not using SQL as its provider."));
+                        return false;
+                    }
+
+                    getCurrencyConfig().getConfig().set(currency.getName()+".sql.username",args[2]);
+
+                    sender.sendMessage(msgWrap("&aSet "+currency.getName()+"'s SQL username to "+args[3]+"."));
+                    return true;
+                case "sql:password":
+                    if (!currency.getProvider().getProviderID().equalsIgnoreCase("hc-sql")) {
+                        sender.sendMessage(msgWrap("&c"+currency.getName()+" is not using SQL as its provider."));
+                        return false;
+                    }
+
+                    getCurrencyConfig().getConfig().set(currency.getName()+".sql.password",args[2]);
+
+                    sender.sendMessage(msgWrap("&aSet "+currency.getName()+"'s SQL password to &a&k"+args[3]+"&c."));
+                    return true;
                 default:
                     sender.sendMessage(msgWrap("&cInvalid option."));
                     return false;
