@@ -1,0 +1,49 @@
+# Prefix used before all messages
+prefix: '&8[&6HYPER&eCURRENCIES&8] &r'
+# Message displayed when the console tries to execute a player command.
+console-sender: '&cOnly players can execute this command.'
+# When a player entered an invalid amount
+invalid-amount: '&cInvalid amount.'
+# When a player entered an invalid currency
+invalid-currency: '&cInvalid currency.'
+# When a player entered an invalid player
+invalid-player: '&cInvalid player.'
+# When the player entered something that's neither a player nor a player.
+not-currency-nor-player: '&c{TEXT} is neither a currency nor a player.'
+
+# The message displayed on /bal
+bal-list: '&eYour balances:'
+# The message describing the/a player's balance on /bal
+bal-list-bal: '&6{CURRENCY}: &e{BALANCE}."'
+# The message displayed when using /bal <currency>
+bal-specific: '&6Your {CURRENCY}: &e{BALANCE}.'
+# The message displayed when using /bal <player>
+bal-other-list: "&e{PLAYER}'s balances:"
+# The message displayed when using /bal <player> <currency>
+bal-other-specific: "&e{PLAYER}'s {CURRENCY}: &6{BALANCE}"
+# When the arguments are invalid when /bal is executed
+bal-invalid: '&cInvalid amount of arguments. Usage: /bal [player|currency] [player].'
+
+# The message displayed on /baltop
+baltop-1: '&eTop &6{PAGE} &eplayers with the most &6{CURRENCY}&e.'
+# The message displayed after /baltop, describing the ranking.
+baltop-2: '&e{RANK}: &6{PLAYER} &7- &e{BALANCE} {CURRENCY}'
+# When an invalid syntax is provided for /baltop
+baltop-invalid: '&cInvalid amount of arguments. Usage: /baltop <currency>.'
+# When a currency is entered that is not supporting balance top.
+baltop-no-support: "&cThe specified currency's provider does not support balance top."
+
+# When the /pay command is used incorrectly.
+pay-invalid: '&cInvalid amount of arguments. Usage: /pay <player> <amount> <currency>.'
+# When the currency entered have paying disabled.
+pay-disabled: '&cPaying is disabled for this currency.'
+# When the entered amount is too low.
+pay-too-low: '&cAmount too low (min. {MIN}).'
+# When the player does not have enough money.
+pay-broke: '&cYou do not have that amount of balance.'
+# When the player getting paid can't have that amount.
+pay-max: "&cThe player can't have that amount of balance."
+# When a transaction between players have been made.
+pay-transaction: '&aYou paid {PLAYER} {AMOUNT} {CURRENCY}.'
+# When a player gets paid.
+paid: '&a{PLAYER} sent you {AMOUNT} {CURRENCY}.'

@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.UUID;
 
 import static me.sv3ks.hypercurrencies.HyperCurrencies.*;
@@ -92,6 +93,11 @@ public class SQLProvider extends CurrencyProvider {
             e.printStackTrace();
             return Math.PI;
         }
+    }
+
+    @Override
+    public Map<Integer, UUID> getBalanceTop(String name) {
+        return null;
     }
 
 

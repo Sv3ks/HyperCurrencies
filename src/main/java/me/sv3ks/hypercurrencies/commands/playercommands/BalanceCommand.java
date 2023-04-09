@@ -1,6 +1,7 @@
 package me.sv3ks.hypercurrencies.commands.playercommands;
 
 import me.sv3ks.hypercurrencies.currencies.Currency;
+import me.sv3ks.hypercurrencies.utils.LanguageHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,8 +19,10 @@ public class BalanceCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
+        LanguageHandler lang = new LanguageHandler();
+
         if (!(sender instanceof Player)) {
-            sender.sendMessage(msgWrap("&cOnly players can execute this command."));
+            sender.sendMessage(lang.getMessage("console-sender"));
             return false;
         }
 
@@ -28,11 +31,14 @@ public class BalanceCommand implements CommandExecutor {
         if (args.length==0) {
             Set<String> currencyNames = getCurrencyConfig().getConfig().getKeys(false);
 
-            sender.sendMessage(msgWrap("&eYou balances:"));
+            sender.sendMessage(lang.getMessage("bal-list"));
 
             for (String currencyName : currencyNames) {
                 Currency currency = new Currency(currencyName);
-                sender.sendMessage(bulletWrap("&6"+currencyName+": &e"+currency.getBalance(player.getUniqueId())+"."));
+                sender.sendMessage(lang.getMessage("bal-list-bal")
+                        .replace("{CURRENCY}",currencyName)
+                        .replace("{BALANCE}",String.valueOf(currency.getBalance(player.getUniqueId())))
+                );
             }
 
             return true;
@@ -40,41 +46,55 @@ public class BalanceCommand implements CommandExecutor {
 
         if (args.length==1) {
             if (currencyExists(args[0])) {
-                sender.sendMessage(msgWrap("&6Your "+args[0]+": &e"+new Currency(args[0]).getBalance(player.getUniqueId())+"."));
+                sender.sendMessage(lang.getMessage("bal-specific")
+                        .replace("{CURRENCY}",args[0])
+                        .replace("{BALANCE}",String.valueOf(new Currency(args[0]).getBalance(player.getUniqueId())))
+                );
                 return true;
             } else if (getOfflinePlayer(args[0])!=null) {
                 Set<String> currencyNames = getCurrencyConfig().getConfig().getKeys(false);
 
-                sender.sendMessage(msgWrap("&e"+args[0]+"'s balances:"));
+                sender.sendMessage(lang.getMessage("bal-other-list")
+                        .replace("{PLAYER}",getOfflinePlayer(args[0]).getName())
+                );
 
                 for (String currencyName : currencyNames) {
                     Currency currency = new Currency(currencyName);
-                    sender.sendMessage(bulletWrap("&6"+currencyName+": &e"+currency.getBalance(getOfflinePlayer(args[0]).getUniqueId())+"."));
+                    sender.sendMessage(lang.getMessage("bal-list-bal")
+                            .replace("{CURRENCY}",currencyName)
+                            .replace("{BALANCE}",String.valueOf(currency.getBalance(getOfflinePlayer(args[0]).getUniqueId())))
+                    );
                 }
 
                 return true;
             } else {
-                sender.sendMessage(msgWrap("&c"+args[0]+" is neither a currency nor player."));
+                sender.sendMessage(lang.getMessage("not-currency-nor-player")
+                        .replace("{TEXT}",args[0])
+                );
                 return false;
             }
         }
 
         if (args.length==2) {
             if (!currencyExists(args[0])) {
-                sender.sendMessage(msgWrap("&cInvalid currency."));
+                sender.sendMessage(lang.getMessage("invalid-currency"));
                 return false;
             }
 
             if (getOfflinePlayer(args[1])==null) {
-                sender.sendMessage(msgWrap("&cInvalid player."));
+                sender.sendMessage(lang.getMessage("invalid-player"));
                 return false;
             }
 
-            sender.sendMessage(msgWrap("&6"+args[1]+"'s "+args[0]+": &e"+new Currency(args[0]).getBalance(getOfflinePlayer(args[1]).getUniqueId())+"."));
+            sender.sendMessage(lang.getMessage("bal-other-specific")
+                    .replace("{PLAYER}",args[1])
+                    .replace("{CURRENCY}",args[0])
+                    .replace("{BALANCE}",String.valueOf(new Currency(args[0]).getBalance(getOfflinePlayer(args[1]).getUniqueId())))
+            );
             return true;
         }
 
-        sender.sendMessage(msgWrap("&cInvalid amount of arguments. Usage: /bal [player|currency] [player]."));
+        sender.sendMessage(lang.getMessage("bal-invalid"));
         return false;
     }
 }

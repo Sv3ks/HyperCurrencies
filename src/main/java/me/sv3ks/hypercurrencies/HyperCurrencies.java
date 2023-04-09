@@ -65,6 +65,9 @@ public final class HyperCurrencies extends JavaPlugin {
         // PlaceholderAPI registration
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI")!=null) new PlaceholderAPIHook().register();
 
+        // Save default languages
+        saveResource("/lang/lang_en-us.yml", false);
+
         this.getLogger().info("Hyper was enabled");
 
     }
