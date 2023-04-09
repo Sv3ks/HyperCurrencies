@@ -3,6 +3,7 @@ package me.sv3ks.hypercurrencies.currencies.providers;
 import me.sv3ks.hypercurrencies.currencies.ChangeType;
 import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 
+import java.util.Map;
 import java.util.UUID;
 
 import static me.sv3ks.hypercurrencies.hooks.VaultHook.getEconomy;
@@ -38,5 +39,10 @@ public class VaultProvider extends CurrencyProvider {
     @Override
     public double get(String name, UUID uuid) {
         return getEconomy().getBalance(getPlayer(uuid));
+    }
+
+    @Override
+    public Map<Integer, UUID> getBalanceTop(String name) {
+        return null;
     }
 }

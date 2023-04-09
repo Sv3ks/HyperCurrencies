@@ -1,5 +1,6 @@
 package me.sv3ks.hypercurrencies.commands.corecommands;
 
+import me.sv3ks.hypercurrencies.utils.LanguageHandler;
 import me.sv3ks.hypercurrencies.utils.UpdateChecker;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,8 +20,14 @@ public class HyperCurrenciesCommand implements CommandExecutor {
             sender.sendMessage(wrap("&8> &6/hyper help &7- &eShows this list."));
             sender.sendMessage(wrap("&8> &6/hyper <reload|rl> &7- &eReloads HyperCurrencies' data."));
             sender.sendMessage(wrap("&8> &6/hyper info &7- &eShows info about HyperCurrencies."));
+            sender.sendMessage(wrap("&8> &6/hyper setlang <langfile> &7- &eSets the language to a file located at /HyperCurrencies/lang/."));
 
             return true;
+        }
+
+        if (args.length==2&&args[0].equalsIgnoreCase("setlang")) {
+            getPlugin().getConfig().set("language",args[1]);
+            sender.sendMessage(msgWrap("&aSet the language to "+args[1]));
         }
 
         if (args[0].equalsIgnoreCase("reload")||args[0].equalsIgnoreCase("rl")) {
@@ -42,6 +49,7 @@ public class HyperCurrenciesCommand implements CommandExecutor {
             sender.sendMessage(bulletWrap("Authors: &e"+getPlugin().getDescription().getAuthors()));
             sender.sendMessage(bulletWrap("Website: &e"+getPlugin().getDescription().getWebsite()));
             sender.sendMessage(bulletWrap("Prefix: &e"+getPlugin().getDescription().getPrefix()));
+            sender.sendMessage(bulletWrap("Language: &e"+getPlugin().getConfig().getString("language")));
             new UpdateChecker((JavaPlugin) getPlugin(), 108601).getVersion(version -> {
                 if (getPlugin().getDescription().getVersion().equals(version)) {
                     sender.sendMessage(bulletWrap("Up to date: &eYes"));

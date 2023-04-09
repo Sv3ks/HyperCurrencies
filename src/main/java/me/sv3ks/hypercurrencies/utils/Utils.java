@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 
 public class Utils {
 
-    private static final String prefix = "&8&l[&6&lHYPER&e&lCURRENCIES&8&l] &r";
+    private static final String prefix = "&8[&6HYPER&eCURRENCIES&8] &r";
 
     public static String wrap(String text) {
         return ChatColor.translateAlternateColorCodes('&',text
