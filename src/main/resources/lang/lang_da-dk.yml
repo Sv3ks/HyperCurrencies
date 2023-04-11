@@ -1,0 +1,49 @@
+# Prefix used before all messages
+prefix: '&8[&6HYPER&eCURRENCIES&8] &r'
+# Message displayed when the console tries to execute a player command.
+console-sender: '&cKun spillere kan bruge denne kommando.'
+# When a player entered an invalid amount
+invalid-amount: '&cUgyldigt antal.'
+# When a player entered an invalid currency
+invalid-currency: '&cUgyldig valuta.'
+# When a player entered an invalid player
+invalid-player: '&cUgyldig spiller.'
+# When the player entered something that's neither a player nor a currency.
+not-currency-nor-player: '&c{TEXT} er ikke en spiller eller valuta.'
+
+# The message displayed on /bal
+bal-list: '&eDine penge:'
+# The message describing the/a player's balance on /bal
+bal-list-bal: '&6{CURRENCY}: &e{BALANCE}."'
+# The message displayed when using /bal <currency>
+bal-specific: '&6Dine {CURRENCY}: &e{BALANCE}.'
+# The message displayed when using /bal <player>
+bal-other-list: "&e{PLAYER}'s penge:"
+# The message displayed when using /bal <player> <currency>
+bal-other-specific: "&e{PLAYER}'s {CURRENCY}: &6{BALANCE}"
+# When the arguments are invalid when /bal is executed
+bal-invalid: '&cUgyldige argumenter. Korrekt måde: /bal [player|currency] [player].'
+
+# The message displayed on /baltop
+baltop-1: '&eTop &6{PAGE} &espillere med mest &6{CURRENCY}&e.'
+# The message displayed after /baltop, describing the ranking.
+baltop-2: '&e{RANK}: &6{PLAYER} &7- &e{BALANCE} {CURRENCY}'
+# When an invalid syntax is provided for /baltop
+baltop-invalid: '&cUgyldige argumenter. Korrekt måde: /baltop <currency>.'
+# When a currency is entered that is not supporting balance top.
+baltop-no-support: "&cDen givne valuta understøtter ikke baltop."
+
+# When the /pay command is used incorrectly.
+pay-invalid: '&cUgyldige argumenter. Korrekt måde: /pay <player> <amount> <currency>.'
+# When the currency entered have paying disabled.
+pay-disabled: "&cDenne valuta's pay funktion er slået fra."
+# When the entered amount is too low.
+pay-too-low: '&cAntal for lavt (min. {MIN}).'
+# When the player does not have enough money.
+pay-broke: '&cDu har ikke nok penge.'
+# When the player getting paid can't have that amount.
+pay-max: "&cDenne spiller kan ikke have det antal penge."
+# When a transaction between players have been made.
+pay-transaction: '&aDu gav {PLAYER} {AMOUNT} {CURRENCY}.'
+# When a player gets paid.
+paid: '&a{PLAYER} sendte dig {AMOUNT} {CURRENCY}.'
