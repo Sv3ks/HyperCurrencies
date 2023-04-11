@@ -81,7 +81,7 @@ public class BalancetopCommand implements CommandExecutor {
             );
 
             for (int i = 0; i < 10; i++) {
-                sender.sendMessage(lang.getMessage("baltop-2")
+                if (baltop.get(i+1+((page*10)-10))!=null) sender.sendMessage(lang.getMessage("baltop-2")
                         .replace("{RANK}",String.valueOf(i+1+((page*10)-10)))
                         .replace("{PLAYER}",getOfflinePlayer(baltop.get(i+1+((page*10)-10))).getName())
                         .replace("{BALANCE}",String.valueOf(currency.getBalance(baltop.get(i+1+((page*10)-10)))))
