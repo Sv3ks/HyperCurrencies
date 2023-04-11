@@ -67,14 +67,15 @@ public final class HyperCurrencies extends JavaPlugin {
 
         // Save default languages
         saveResource("/lang/lang_en-us.yml", false);
+        saveResource("/lang/lang_da-dk.yml", false);
 
-        this.getLogger().info("Hyper was enabled");
+        this.getLogger().info("HyperCurrencies was enabled");
 
     }
 
     @Override
     public void onDisable() {
-        this.getLogger().info("Hyper was disabled");
+        this.getLogger().info("HyperCurrencies was disabled");
     }
 
     public static Plugin getPlugin() { return plugin; }
