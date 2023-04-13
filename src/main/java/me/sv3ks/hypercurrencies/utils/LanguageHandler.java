@@ -1,7 +1,7 @@
 package me.sv3ks.hypercurrencies.utils;
 
 import java.io.File;
-import java.io.InputStream;
+import java.util.List;
 
 import me.sv3ks.hypercurrencies.HyperCurrencies;
 import org.bukkit.ChatColor;
@@ -40,6 +40,33 @@ public class LanguageHandler {
 
         message = ChatColor.translateAlternateColorCodes('&', message);
         return getPrefix()+message;
+    }
+
+    public List<String> getRawMessageSet(String name) {
+        List<String> messageSet = config.getStringList(name);
+        if (messageSet.isEmpty())
+        {
+            this.plugin.getLogger().warning(String.format("Missing messageSet in %s: %s",language,name));
+            messageSet.add("&cMissing messageSet.");
+        }
+
+        // Wrap
+
+        for (String message : messageSet) {
+            messageSet.remove(message);
+            messageSet.add(ChatColor.translateAlternateColorCodes('&',message));
+        }
+
+        return messageSet;
+    }
+
+    public List<String> getPrefixedMessageSet(String name) {
+        List<String> messageSet = getRawMessageSet(name);
+        for (String message : messageSet) {
+            messageSet.remove(message);
+            messageSet.add(getPrefix()+message);
+        }
+        return messageSet;
     }
 
     public String getPrefix()
