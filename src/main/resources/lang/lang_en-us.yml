@@ -33,6 +33,11 @@ baltop-invalid: '&cInvalid amount of arguments. Usage: /baltop <currency>.'
 # When a currency is entered that is not supporting balance top.
 baltop-no-support: "&cThe specified currency's provider does not support balance top."
 
+# Text displayed when /pay is used with no arguments
+pay-help:
+  - '&8----- &6&lHow to use &e&l/pay &8-----'
+  - '&8> &6/pay <player> <amount> <currency> &7- &ePay a player a specific amount of a specific currency.'
+  - '&8> &6/pay toggle <currency> &7- &eToggle whether or not you want to be able to get paid using /pay.'
 # When the /pay command is used incorrectly.
 pay-invalid: '&cInvalid amount of arguments. Usage: /pay <player> <amount> <currency>.'
 # When the currency entered have paying disabled.

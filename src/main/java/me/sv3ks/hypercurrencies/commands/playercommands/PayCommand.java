@@ -25,6 +25,14 @@ public class PayCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
+        if (args.length==0) {
+            for (String message : lang.getRawMessageSet("pay-help")) {
+                sender.sendMessage(message);
+            }
+
+            return true;
+        }
+
         if (args.length!=3) {
             sender.sendMessage(lang.getMessage("pay-invalid"));
             return false;
