@@ -69,6 +69,15 @@ public class LanguageHandler {
         return messageSet;
     }
 
+    public List<String> getBulletMessageSet(String name) {
+        List<String> messageSet = getRawMessageSet(name);
+        for (String message : messageSet) {
+            messageSet.remove(message);
+            messageSet.add(Utils.bulletWrap(message));
+        }
+        return messageSet;
+    }
+
     public String getPrefix()
     {
         String prefix = config.getString("prefix");
