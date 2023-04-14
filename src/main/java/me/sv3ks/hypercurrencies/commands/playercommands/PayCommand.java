@@ -33,6 +33,19 @@ public class PayCommand implements CommandExecutor {
             return true;
         }
 
+        if (args.length==2&&args[0].equalsIgnoreCase("toggle")) {
+            if (!currencyExists(args[1])) {
+                sender.sendMessage(lang.getMessage("invalid-currency"));
+                return false;
+            }
+
+            new Currency(args[1]).togglePay(((Player)sender).getUniqueId());
+            sender.sendMessage(lang.getMessage("pay-toggle-state")
+                    .replace("{STATE}",String.valueOf(new Currency(args[1]).getPayToggleState(((Player)sender).getUniqueId())))
+                    .replace("{CURRENCY}",new Currency(args[1]).getName())
+            );
+        }
+
         if (args.length!=3) {
             sender.sendMessage(lang.getMessage("pay-invalid"));
             return false;

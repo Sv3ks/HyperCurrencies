@@ -3,7 +3,6 @@ package me.sv3ks.hypercurrencies.currencies;
 import java.util.UUID;
 
 import static me.sv3ks.hypercurrencies.HyperCurrencies.*;
-import static org.bukkit.Bukkit.getPlayer;
 
 public class Currency {
 
@@ -110,6 +109,12 @@ public class Currency {
         getCurrencyConfig().saveConfig();
     }
 
+    public void togglePay(UUID uuid) {
+        if (getPayToggleState(uuid)) getDataConfig().getConfig().set("pay-toggle."+uuid,false);
+        else getDataConfig().getConfig().set("pay-toggle."+uuid,true);
+        getDataConfig().saveConfig();
+    }
+
     // Getters
 
     public double getBalance(UUID player) {
@@ -142,6 +147,14 @@ public class Currency {
 
     public double getPayMin() {
         return payMin;
+    }
+
+    public boolean getPayToggleState(UUID uuid) {
+        if (getDataConfig().getConfig().getString("pay-toggle."+uuid)==null) {
+            getDataConfig().getConfig().set("pay-toggle."+uuid,true);
+            getDataConfig().saveConfig();
+        }
+        return getDataConfig().getConfig().getBoolean("pay-toggle."+uuid);
     }
 
     @Deprecated

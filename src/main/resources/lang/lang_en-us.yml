@@ -52,3 +52,5 @@ pay-max: "&cThe player can't have that amount of balance."
 pay-transaction: '&aYou paid {PLAYER} {AMOUNT} {CURRENCY}.'
 # When a player gets paid.
 paid: '&a{PLAYER} sent you {AMOUNT} {CURRENCY}.'
+# Message displayed when toggling pay (/pay toggle <currency>)
+pay-toggle-state: '&aYou toggled payments for {CURRENCY} to {STATE}.'
