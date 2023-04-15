@@ -1,0 +1,49 @@
+# 信息前缀
+prefix: '&8[&6HYPER&eCURRENCIES&8] &r'
+# 控制台使用玩家命令时显示
+console-sender: '&c此命令只有玩家才能执行.'
+# 当玩家输入无效金额时显示
+invalid-amount: '&c无效金额.'
+# 当玩家输入无效货币时显示
+invalid-currency: '&c无效货币.'
+# 当玩家输入无效玩家时显示
+invalid-player: '&c玩家不存在或不在线.'
+# 当玩家输入的内容不是以上内容时显示
+not-currency-nor-player: '&c{TEXT} 只能输入玩家和货币.'
+
+# 玩家输入 /bal 时显示
+bal-list: '&e你的余额:'
+# 玩家输入 /bal 时显示
+bal-list-bal: '&6{CURRENCY}: &e{BALANCE}."'
+# 玩家输入 /bal <currency> 时显示
+bal-specific: '&6你 {CURRENCY}货币的余额: &e{BALANCE}.'
+# 玩家输入 /bal <player> 时显示
+bal-other-list: "&e{PLAYER}的余额:"
+# 玩家输入 /bal <player> <currency> 时显示
+bal-other-specific: "&e{PLAYER} {CURRENCY}货币的余额: &6{BALANCE}"
+# 玩家输入 /bal 参数错误时显示
+bal-invalid: '&c参数无效. 用法: /bal [player|currency] [player].'
+
+# 输入 /baltop 时显示
+baltop-1: '&6{CURRENCY}货币排行榜 &e排名前 {PAGE}的 玩家.'
+# 输入 /baltop 时显示的排行榜信息
+baltop-2: '&e{RANK}: &6{PLAYER} &7- &e{BALANCE} {CURRENCY}'
+# 输入 /baltop 参数错误时显示
+baltop-invalid: '&c无效参数. 用法: /baltop <currency>.'
+# 输入不支持排行榜的货币时显示
+baltop-no-support: "&c该货币，不支持排行榜."
+
+# 输入 /pay 参数错误时显示
+pay-invalid: '&c无效参数. 用法: /pay <player> <amount> <currency>.'
+# 输入的货币被禁用转账功能时显示
+pay-disabled: '&c该货币不支持转账.'
+# 输入的金额太低时显示
+pay-too-low: '&c金额太低 (最低. {MIN}).'
+# 玩家没有足够的金额时显示
+pay-broke: '&c你没有那么多金额.'
+# 当玩家获得转账金额时，玩家不能拥有这么多金额时显示
+pay-max: "&c你无法拥有这么多金额."
+# 转账给玩家金额时显示
+pay-transaction: '&a你转账给 {PLAYER} {AMOUNT} {CURRENCY}.'
+# 当玩家获得转账金额时显示
+paid: '&a{PLAYER} 转账给你 {AMOUNT} {CURRENCY}.'
