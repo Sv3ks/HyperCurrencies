@@ -68,6 +68,7 @@ public final class HyperCurrencies extends JavaPlugin {
         // Save default languages
         saveResource("/lang/lang_en-us.yml", false);
         saveResource("/lang/lang_da-dk.yml", false);
+        saveResource("/lang/lang_zh-cn.yml", false);
 
         this.getLogger().info("HyperCurrencies was enabled");
 
