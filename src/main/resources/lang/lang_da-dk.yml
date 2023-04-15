@@ -21,3 +21,8 @@ pay-broke: '&cDu har ikke nok penge.'
 pay-max: "&cDenne spiller kan ikke have det antal penge."
 pay-transaction: '&aDu gav {PLAYER} {AMOUNT} {CURRENCY}.'
 paid: '&a{PLAYER} sendte dig {AMOUNT} {CURRENCY}.'
+pay-help:
+  - '&8----- &6&lHvordan du bruger &e&l/pay &8-----'
+  - '&8> &6/pay <spiller> <antal> <valuta> &7- &eOverfør penge til en spiller.'
+  - '&8> &6/pay toggle <valuta> &7- &eToggle om du kan modtage penge via /pay eller ej.'
+pay-toggle-state: '&aDu skiftede din overførselstilstand af {CURRENCY} til {STATE}.'
