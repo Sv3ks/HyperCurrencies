@@ -47,6 +47,8 @@ public class SQLProvider extends CurrencyProvider {
                     getConnection(name).prepareStatement("UPDATE "+name+" SET value='"+(get(name, uuid)-amount)+"' WHERE uuid="+uuid).executeUpdate();
                     break;
                 case SET:
+                    // For autogeneration
+                    get(name,uuid);
                     if (
                             amount < currency.getMinBal() ||
                                     amount > currency.getMaxBal()
