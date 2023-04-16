@@ -4,10 +4,8 @@ import me.sv3ks.hypercurrencies.currencies.ChangeType;
 import me.sv3ks.hypercurrencies.currencies.Currency;
 import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -75,13 +73,13 @@ public class SQLProvider extends CurrencyProvider {
         try {
             conn = getConnection(name);
 
-            conn.createStatement().execute(String.format("CREATE TABLE IF NOT EXISTS %s(uuid varchar(255), value varchar(255))",name));
+            conn.createStatement().execute(String.format("CREATE TABLE IF NOT EXISTS %s(uuid varchar(36), value double)",name));
 
             // Get balance
             ResultSet resultSet = conn.createStatement().executeQuery("SELECT * FROM "+name+" WHERE UUID='"+uuid+"'");
 
             // Check if balance is set
-            if (resultSet.getObject("VALUE")==null) {
+            if (resultSet.getObject("value")==null) {
                 // Set balance & return starting balance
 
                 conn.prepareStatement("INSERT INTO "+name+" (uuid, value) VALUES ('"+uuid.toString()+"', '"+startingBalance+"')").executeUpdate();
@@ -89,7 +87,7 @@ public class SQLProvider extends CurrencyProvider {
                 return startingBalance;
             } else {
                 // Get & return balance
-                return Double.parseDouble(resultSet.getString("VALUE"));
+                return resultSet.getDouble("value");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -99,20 +97,31 @@ public class SQLProvider extends CurrencyProvider {
 
     @Override
     public Map<Integer, UUID> getBalanceTop(String name) {
-        return null;
-    }
+        try {
+            Currency currency = new Currency(name);
+            Statement statement = getConnection(name).createStatement();
+            String sql = String.format("SELECT * FROM %s",name);
+            ResultSet result = statement.executeQuery(sql);
+            statement.close();
 
+            Map<Integer, UUID> baltop = new HashMap<>();
 
-    @Deprecated
-    static boolean tableExistsSQL(Connection connection, String tableName) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT count(*) "
-                + "FROM information_schema.tables "
-                + "WHERE table_name = ?"
-                + "LIMIT 1;");
-        preparedStatement.setString(1, tableName);
+            while (result.next()) {
+                for (int i = 1; i != 101; i++) {
+                    if (result.getDouble("value") > currency.getBalance(baltop.get(i))) {
+                        for (int i2 = 100; i2 != i; i--) {
+                            baltop.put(i2, baltop.get(i2 - 1));
+                        }
+                        baltop.put(i, UUID.fromString(result.getString("uuid")));
+                        i = 101;
+                    }
+                }
+            }
 
-        ResultSet resultSet = preparedStatement.executeQuery();
-        resultSet.next();
-        return resultSet.getInt(1) != 0;
+            return baltop;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
