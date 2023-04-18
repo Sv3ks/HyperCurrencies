@@ -11,6 +11,7 @@ import me.sv3ks.hypercurrencies.currencies.providers.SQLProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.VaultProvider;
 import me.sv3ks.hypercurrencies.hooks.PlaceholderAPIHook;
 import me.sv3ks.hypercurrencies.utils.Config;
+import me.sv3ks.hypercurrencies.utils.Metrics;
 import me.sv3ks.hypercurrencies.utils.UpdateChecker;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,6 +24,7 @@ public final class HyperCurrencies extends JavaPlugin {
     private static Config currencyConfig;
     private static Config dataConfig;
     private static HashMap<String,CurrencyProvider> providers;
+    private static Metrics metrics;
 
     @Override
     public void onEnable() {
@@ -70,6 +72,9 @@ public final class HyperCurrencies extends JavaPlugin {
         saveResource("/lang/lang_da-dk.yml", false);
         saveResource("/lang/lang_zh-cn.yml", false);
 
+        // Load bStats Metrics
+        Metrics metrics = new Metrics(this,18221);
+
         this.getLogger().info("HyperCurrencies was enabled");
 
     }
@@ -84,6 +89,9 @@ public final class HyperCurrencies extends JavaPlugin {
     public static Config getDataConfig() { return dataConfig; }
     public static HashMap<String, CurrencyProvider> getProviders() {
         return providers;
+    }
+    public static void addMetricsCurrencyChartValue() {
+        metrics.addCustomChart(new Metrics.SingleLineChart("total_currencies", () -> 1));
     }
 
     public static void addProvider(CurrencyProvider provider) {
