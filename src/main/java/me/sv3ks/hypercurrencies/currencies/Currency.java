@@ -21,6 +21,7 @@ public class Currency {
             getCurrencyConfig().getConfig().set(name+".max-bal",1000000000000000000d);
             getCurrencyConfig().getConfig().set(name+".provider","hypercurrencies");
             getCurrencyConfig().saveConfig();
+            addMetricsCurrencyChartValue();
         }
 
         this.name = name;
