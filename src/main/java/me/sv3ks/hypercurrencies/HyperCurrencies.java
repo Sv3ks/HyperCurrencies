@@ -9,7 +9,8 @@ import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.DefaultProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.SQLProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.VaultProvider;
-import me.sv3ks.hypercurrencies.hooks.PlaceholderAPIHook;
+import me.sv3ks.hypercurrencies.hooks.PlaceholderAPI.Placeholder;
+import me.sv3ks.hypercurrencies.hooks.PlaceholderAPI.PlaceholderAPIHook;
 import me.sv3ks.hypercurrencies.utils.Config;
 import me.sv3ks.hypercurrencies.utils.Metrics;
 import me.sv3ks.hypercurrencies.utils.UpdateChecker;
@@ -17,6 +18,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
+import java.util.List;
 
 public final class HyperCurrencies extends JavaPlugin {
 
@@ -25,6 +27,7 @@ public final class HyperCurrencies extends JavaPlugin {
     private static Config dataConfig;
     private static HashMap<String,CurrencyProvider> providers;
     private static Metrics metrics;
+    private static List<Placeholder> placeholders;
 
     @Override
     public void onEnable() {
@@ -96,6 +99,14 @@ public final class HyperCurrencies extends JavaPlugin {
 
     public static void addProvider(CurrencyProvider provider) {
         providers.put(provider.getProviderID(),provider);
+    }
+
+    public static void addPlaceholder(Placeholder placeholder) {
+        placeholders.add(placeholder);
+    }
+
+    public static List<Placeholder> getPlaceholders() {
+        return placeholders;
     }
 
 }

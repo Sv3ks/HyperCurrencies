@@ -1,4 +1,4 @@
-package me.sv3ks.hypercurrencies.hooks;
+package me.sv3ks.hypercurrencies.hooks.PlaceholderAPI;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.sv3ks.hypercurrencies.HyperCurrencies;
@@ -33,7 +33,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 
         String[] fixedParams = params.split("_");
 
-        if (fixedParams[0].equalsIgnoreCase("balance")) {
+        if (fixedParams.length==2&&fixedParams[0].equalsIgnoreCase("balance")) {
             return String.valueOf(new Currency(fixedParams[1]).getBalance(player.getUniqueId()));
         }
 
