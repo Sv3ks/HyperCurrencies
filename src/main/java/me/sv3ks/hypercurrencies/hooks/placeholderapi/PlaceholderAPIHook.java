@@ -1,4 +1,4 @@
-package me.sv3ks.hypercurrencies.hooks.PlaceholderAPI;
+package me.sv3ks.hypercurrencies.hooks.placeholderapi;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.sv3ks.hypercurrencies.HyperCurrencies;
@@ -43,7 +43,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
                     placeholderParams[i-1] = fixedParams[i];
                 }
 
-                return placeholder.getPlaceholder(placeholderParams);
+                return placeholder.getPlaceholder(player,placeholderParams);
             }
         }
 

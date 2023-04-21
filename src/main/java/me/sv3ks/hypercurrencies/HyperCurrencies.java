@@ -9,14 +9,16 @@ import me.sv3ks.hypercurrencies.currencies.CurrencyProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.DefaultProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.SQLProvider;
 import me.sv3ks.hypercurrencies.currencies.providers.VaultProvider;
-import me.sv3ks.hypercurrencies.hooks.PlaceholderAPI.Placeholder;
-import me.sv3ks.hypercurrencies.hooks.PlaceholderAPI.PlaceholderAPIHook;
+import me.sv3ks.hypercurrencies.hooks.placeholderapi.Placeholder;
+import me.sv3ks.hypercurrencies.hooks.placeholderapi.PlaceholderAPIHook;
+import me.sv3ks.hypercurrencies.hooks.placeholderapi.placeholders.BalancePlaceholder;
 import me.sv3ks.hypercurrencies.utils.Config;
 import me.sv3ks.hypercurrencies.utils.Metrics;
 import me.sv3ks.hypercurrencies.utils.UpdateChecker;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,6 +38,7 @@ public final class HyperCurrencies extends JavaPlugin {
         currencyConfig = new Config("currencies.yml");
         dataConfig = new Config("data.yml");
         providers = new HashMap<>();
+        placeholders = new ArrayList<>();
 
         currencyConfig.createConfig();
         dataConfig.createConfig();
@@ -76,7 +79,10 @@ public final class HyperCurrencies extends JavaPlugin {
         saveResource("/lang/lang_zh-cn.yml", false);
 
         // Load bStats Metrics
-        Metrics metrics = new Metrics(this,18221);
+        metrics = new Metrics(this,18221);
+
+        // Registering Placeholders
+        addPlaceholder(new BalancePlaceholder());
 
         this.getLogger().info("HyperCurrencies was enabled");
 
