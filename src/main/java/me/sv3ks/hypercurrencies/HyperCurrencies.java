@@ -13,6 +13,7 @@ import me.sv3ks.hypercurrencies.hooks.placeholderapi.Placeholder;
 import me.sv3ks.hypercurrencies.hooks.placeholderapi.PlaceholderAPIHook;
 import me.sv3ks.hypercurrencies.hooks.placeholderapi.placeholders.BalanceOtherPlaceholder;
 import me.sv3ks.hypercurrencies.hooks.placeholderapi.placeholders.BalancePlaceholder;
+import me.sv3ks.hypercurrencies.hooks.placeholderapi.placeholders.BaltopPlaceholder;
 import me.sv3ks.hypercurrencies.utils.Config;
 import me.sv3ks.hypercurrencies.utils.Metrics;
 import me.sv3ks.hypercurrencies.utils.UpdateChecker;
@@ -85,6 +86,7 @@ public final class HyperCurrencies extends JavaPlugin {
         // Registering Placeholders
         addPlaceholder(new BalancePlaceholder());
         addPlaceholder(new BalanceOtherPlaceholder());
+        addPlaceholder(new BaltopPlaceholder());
 
         this.getLogger().info("HyperCurrencies was enabled");
 
