@@ -20,6 +20,7 @@ import me.sv3ks.hypercurrencies.utils.UpdateChecker;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,9 +77,9 @@ public final class HyperCurrencies extends JavaPlugin {
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI")!=null) new PlaceholderAPIHook().register();
 
         // Save default languages
-        saveResource("/lang/lang_en-us.yml", false);
-        saveResource("/lang/lang_da-dk.yml", false);
-        saveResource("/lang/lang_zh-cn.yml", false);
+        saveResource(String.format("lang%slang_en-us.yml", File.separator), false);
+        saveResource(String.format("lang%slang_da-dk.yml", File.separator), false);
+        saveResource(String.format("lang%slang_zh-cn.yml", File.separator), false);
 
         // Load bStats Metrics
         metrics = new Metrics(this,18221);
