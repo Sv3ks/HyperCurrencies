@@ -80,6 +80,7 @@ public final class HyperCurrencies extends JavaPlugin {
         saveResource(String.format("lang%slang_en-us.yml", File.separator), false);
         saveResource(String.format("lang%slang_da-dk.yml", File.separator), false);
         saveResource(String.format("lang%slang_zh-cn.yml", File.separator), false);
+        saveResource(String.format("lang%slang_de-de.yml", File.separator), false);
 
         // Load bStats Metrics
         metrics = new Metrics(this,18221);

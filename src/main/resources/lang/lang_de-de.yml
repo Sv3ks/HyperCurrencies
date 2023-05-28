@@ -1,0 +1,56 @@
+# Prefix used before all messages
+prefix: '&8[&6HYPER&eCURRENCIES&8] &r'
+# Message displayed when the console tries to execute a player command.
+console-sender: '&cNur Spieler können diesen Befehl ausführen.'
+# When a player entered an invalid amount
+invalid-amount: '&cUngültige Anzahl.'
+# When a player entered an invalid currency
+invalid-currency: '&cUngültige Währung.'
+# When a player entered an invalid player
+invalid-player: '&cUngültiger Spieler.'
+# When the player entered something that's neither a player nor a player.
+not-currency-nor-player: '&c{TEXT} ist keine Währung und auch kein Spieler.'
+
+# The message displayed on /bal
+bal-list: '&eDeine Kontostand:'
+# The message describing the/a player's balance on /bal
+bal-list-bal: '&6{CURRENCY}: &e{BALANCE}."'
+# The message displayed when using /bal <currency>
+bal-specific: '&6Deine {CURRENCY}: &e{BALANCE}.'
+# The message displayed when using /bal <player>
+bal-other-list: "&e{PLAYER}'s Kontostand:"
+# The message displayed when using /bal <player> <currency>
+bal-other-specific: "&e{PLAYER}'s {CURRENCY}: &6{BALANCE}"
+# When the arguments are invalid when /bal is executed
+bal-invalid: '&cUngültige Anzahl von Argumenten. Benutze: /bal [Spieler|Währung] [Spieler].'
+
+# The message displayed on /baltop
+baltop-1: '&eTop &6{PAGE} &eSpieler mit der meisten Währung &6{CURRENCY}&e.'
+# The message displayed after /baltop, describing the ranking.
+baltop-2: '&e{RANK}: &6{PLAYER} &7- &e{BALANCE} {CURRENCY}'
+# When an invalid syntax is provided for /baltop
+baltop-invalid: '&cUngültige Anzahl von Argumenten. Benutze: /baltop <Währung>.'
+# When a currency is entered that is not supporting balance top.
+baltop-no-support: "&cDie Währung unterstützt die Top nicht."
+
+# Text displayed when /pay is used with no arguments
+pay-help:
+  - '&8----- &6&lWie zu benutzen &e&l/pay &8-----'
+  - '&8> &6/pay <Spieler> <Anzahl> <Währung> &7- &eEinem Spieler einen bestimmten Betrag in einer bestimmten Währung zahlen.'
+  - '&8> &6/pay toggle <Währung> &7- &eSchalte die möglichkeit eine Währung via /pay zu erhalten ein oder aus.'
+# When the /pay command is used incorrectly.
+pay-invalid: '&cUngültige Anzahl von Argumenten Benutze: /pay <Spieler> <Anzahl> <Währung>.'
+# When the currency entered have paying disabled.
+pay-disabled: '&cBezahlen ist für diese Währung ausgeschaltet.'
+# When the entered amount is too low.
+pay-too-low: '&cZu niedriger Betrag (mindestens {MIN}).'
+# When the player does not have enough money.
+pay-broke: '&cDu hast nicht genügend Währung.'
+# When the player getting paid can't have that amount.
+pay-max: "&cDer Spieler kann diesen Betrag nicht erhalten."
+# When a transaction between players have been made.
+pay-transaction: '&aDu hast {PLAYER} {AMOUNT} {CURRENCY} bezahlt.'
+# When a player gets paid.
+paid: '&a{PLAYER} hat dir {AMOUNT} {CURRENCY} gezahlt.'
+# Message displayed when toggling pay (/pay toggle <currency>)
+pay-toggle-state: '&aDu hast die Zahlungen von {CURRENCY} zu {STATE} geschaltet.'
