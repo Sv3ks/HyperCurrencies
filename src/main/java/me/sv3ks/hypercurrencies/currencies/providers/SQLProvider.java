@@ -78,17 +78,18 @@ public class SQLProvider extends CurrencyProvider {
             // Get balance
             ResultSet resultSet = conn.createStatement().executeQuery("SELECT * FROM "+name+" WHERE UUID='"+uuid+"'");
 
-            // Check if balance is set
-            if (resultSet.getObject("value")==null) {
+            // Check if balance is set - IN DEVELOPMENT
+            try {
+                resultSet.getObject("value");
+            } catch (SQLException e) {
+
                 // Set balance & return starting balance
-
-                conn.prepareStatement("INSERT INTO "+name+" (uuid, value) VALUES ('"+uuid.toString()+"', '"+startingBalance+"')").executeUpdate();
-
+                conn.prepareStatement("INSERT INTO " + name + " (uuid, value) VALUES ('" + uuid.toString() + "', '" + startingBalance + "')").executeUpdate();
                 return startingBalance;
-            } else {
-                // Get & return balance
-                return resultSet.getDouble("value");
             }
+
+            // Player DOES have balance - Get & return balance
+            return resultSet.getDouble("value");
         } catch (SQLException e) {
             e.printStackTrace();
             return Math.PI;
