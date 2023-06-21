@@ -13,6 +13,9 @@ import static me.sv3ks.hypercurrencies.HyperCurrencies.*;
 import static me.sv3ks.hypercurrencies.hooks.SQLHook.getConnection;
 
 public class SQLProvider extends CurrencyProvider {
+
+    private static final String TABLE_PREFIX = "table_HyperCurrencies_";
+
     @Override
     public String getProviderID() {
         return "hc-sql";
@@ -21,32 +24,39 @@ public class SQLProvider extends CurrencyProvider {
     @Override
     public boolean change(ChangeType type, String name, UUID uuid, double amount) {
         final Currency currency = new Currency(name);
+
+        if (!(currency.getProvider() instanceof SQLProvider)) {
+            return false;
+        }
+        Connection connection = null;
+        String tableName = TABLE_PREFIX + name;
         try {
             switch (type) {
                 case ADD:
 
                     if (
-                            (get(name, uuid)+"").startsWith("-") ||
+                            (get(name, uuid) + "").startsWith("-") ||
                                     amount + get(name, uuid) > currency.getMaxBal()
                     ) {
                         return false;
                     }
 
-                    getConnection(name).prepareStatement("UPDATE "+name+" SET value='"+(get(name, uuid)+amount)+"' WHERE uuid="+uuid).executeUpdate();
+                    connection = getConnection(name);
+                    connection.prepareStatement("UPDATE " + tableName + " SET value='" + (get(name, uuid) + amount) + "' WHERE uuid=" + uuid).executeUpdate();
                     break;
                 case REMOVE:
                     if (
                             get(name, uuid) - amount < currency.getMinBal() ||
-                                    (get(name, uuid)+"").startsWith("-")
+                                    (get(name, uuid) + "").startsWith("-")
                     ) {
                         return false;
                     }
-
-                    getConnection(name).prepareStatement("UPDATE "+name+" SET value='"+(get(name, uuid)-amount)+"' WHERE uuid="+uuid).executeUpdate();
+                    connection = getConnection(name);
+                    connection.prepareStatement("UPDATE " + tableName + " SET value='" + (get(name, uuid) - amount) + "' WHERE uuid=" + uuid).executeUpdate();
                     break;
                 case SET:
                     // For autogeneration
-                    get(name,uuid);
+                    get(name, uuid);
                     if (
                             amount < currency.getMinBal() ||
                                     amount > currency.getMaxBal()
@@ -54,12 +64,21 @@ public class SQLProvider extends CurrencyProvider {
                         return false;
                     }
 
-                    getConnection(name).prepareStatement("UPDATE "+name+" SET value='"+amount+"' WHERE uuid="+uuid).executeUpdate();
+                    connection = getConnection(name);
+                    connection.prepareStatement("UPDATE " + tableName + " SET value='" + amount + "' WHERE uuid=" + uuid).executeUpdate();
                     break;
             }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         getDataConfig().saveConfig();
@@ -68,15 +87,18 @@ public class SQLProvider extends CurrencyProvider {
 
     @Override
     public double get(String name, UUID uuid) {
-        final double startingBalance = getCurrencyConfig().getConfig().getDouble(name+".starting-bal");
-        final Connection conn;
+        final double startingBalance = getCurrencyConfig().getConfig().getDouble(name + ".starting-bal");
+        Connection conn = null;
         try {
             conn = getConnection(name);
 
-            conn.createStatement().execute(String.format("CREATE TABLE IF NOT EXISTS %s(uuid varchar(36), value double)",name));
+            String tableName = TABLE_PREFIX + name;
+
+            // todo needs primary key or unique index
+            conn.createStatement().execute(String.format("CREATE TABLE IF NOT EXISTS %s(uuid varchar(36), value double)", tableName));
 
             // Get balance
-            ResultSet resultSet = conn.createStatement().executeQuery("SELECT * FROM "+name+" WHERE UUID='"+uuid+"'");
+            ResultSet resultSet = conn.createStatement().executeQuery("SELECT * FROM " + tableName + " WHERE UUID='" + uuid + "'");
 
             // Check if balance is set - IN DEVELOPMENT
             try {
@@ -84,7 +106,7 @@ public class SQLProvider extends CurrencyProvider {
             } catch (SQLException e) {
 
                 // Set balance & return starting balance
-                conn.prepareStatement("INSERT INTO " + name + " (uuid, value) VALUES ('" + uuid.toString() + "', '" + startingBalance + "')").executeUpdate();
+                conn.prepareStatement("INSERT INTO " + tableName + " (uuid, value) VALUES ('" + uuid.toString() + "', '" + startingBalance + "')").executeUpdate();
                 return startingBalance;
             }
 
@@ -93,17 +115,33 @@ public class SQLProvider extends CurrencyProvider {
         } catch (SQLException e) {
             e.printStackTrace();
             return Math.PI;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     @Override
     public Map<Integer, UUID> getBalanceTop(String name) {
+        Connection conn = null;
         try {
             Currency currency = new Currency(name);
-            Statement statement = getConnection(name).createStatement();
-            String sql = String.format("SELECT * FROM %s",name);
+
+            if (!(currency.getProvider() instanceof SQLProvider)) {
+                return null;
+            }
+            conn = getConnection(name);
+            Statement statement = conn.createStatement();
+            // if table dont exists create it here?
+            String sql = String.format("SELECT * FROM %s", TABLE_PREFIX + name);
             ResultSet result = statement.executeQuery(sql);
-            statement.close();
+            // close statement too early will cause SQLException
+            //statement.close();
 
             Map<Integer, UUID> baltop = new HashMap<>();
 
@@ -123,6 +161,14 @@ public class SQLProvider extends CurrencyProvider {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
